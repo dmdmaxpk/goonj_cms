@@ -1,0 +1,101 @@
+{% extends '../layout.twig' %}
+
+    {% block head %}
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">{{ title }}</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Data Table</h4>
+                            <h6 class="card-subtitle">Data table example</h6>
+                            <div class="table-responsive m-t-40">
+                                <table id="myTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Added Date</th>
+                                            <th>Category</th>
+                                            <th>Feed</th>
+                                            <th>Duration</th>
+                                            <th>Transcoding</th>
+                                            <th>Status</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for video in videoList%}
+                                            <tr>
+                                                <td>{{video.title}}</td>
+                                                <td>{{video.added_dtm|date("Y-m-d H:i:s", false)}}</td>
+                                                <td>{{video.category}}</td>
+                                                {#<td>{{video.sub_category}}</td>#}
+                                                <td>{{video.feed}} </td>
+                                                <td>{{video.duration}} </td>
+                                                
+            
+                                                <td>
+                                                    {#{{ video.transcoding_status }}#}
+                                                    {% if video.transcoding_status == true%}
+                                                        <strong class="btn bg-olive margin">Done</strong>
+                                                    {% elseif video.transcoding_status == false %}
+                                                        <strong>In Progress</strong>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if video.active %}
+                                                        <strong class="btn bg-olive margin">Active</strong>
+                                                    {% else %}
+                                                        <strong>Not Active</strong>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    <a href="/video/view/{{ video._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                                    <a href="/video/edit/{{ video._id }}" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                    <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/video/delete?_id={{anchor._id}}"> <i class="fa fa-close text-danger"></i> </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>         
+        </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Initialize Datatable
+                $('#myTable').DataTable({
+                    "order": [[ 1, "desc" ]]
+                });
+
+                // Delete
+                $(".delete").click(function () {
+                    var url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+            });
+        </script>
+    {% endblock %}       

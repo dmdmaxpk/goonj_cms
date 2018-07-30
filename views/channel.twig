@@ -1,0 +1,131 @@
+{% extends 'layout.twig' %}
+
+    {% block head %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
+        <style>
+            .form-control {
+                margin-bottom: 15px;
+            }
+        </style>
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">Channels</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <div class="table-responsive m-t-40">
+                            <table id="myTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Streaming Link</th>
+                                        <th>Sequence</th>
+                                        <th>Active</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for channel in list %}
+                                        <tr>
+                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ channel._id }}' data-name="name" data-send="always" data-url='/channel/editable' data-placeholder="Required" data-value='{{ channel.name }}'></a></td>
+                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ channel._id }}' data-name="hls_link" data-send="always" data-url='/channel/editable' data-value='{{ channel.hls_link }}'></a></td>
+                                            <td><a href="#" class="editable" data-type="number" data-pk='{{ channel._id }}' data-name="seq" data-send="always" data-url='/channel/editable' data-value='{{ channel.seq }}'></a></td>
+                                            <td><input type="checkbox" data-id='{{ channel._id }}' class="checkbox" {% if channel.active == true %} checked {% endif %}></td>
+                                            <td class="text-nowrap">
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/channel/delete?_id={{channel._id}}"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <h2>Add Channel</h2>
+                        <form method="post" action="/channel/add">
+                            <div class="row">
+                                <div class="col-6">
+                                        <input name='name' type="text" class="form-control" placeholder="Name" required>
+                                        <input name='description' type="text" class="form-control" placeholder="Description">
+                                        <input name='language' type="text" class="form-control" placeholder="Language">
+                                        <input name='category' type="text" class="form-control" placeholder="Category">
+                                        <input name='hls_link' type="text" class="form-control" placeholder="hls_link">
+                                        <input name='https_link' type="text" class="form-control" placeholder="https_link">
+                                        <input name='seq' type="number" class="form-control" placeholder="Sequence">
+                                        <input name='country' type="text" class="form-control" placeholder="Country">
+                                        <label>Active</label>
+                                        <input id="chk" name='active' type="checkbox" class="form-control">
+                                </div>
+                                <div class="col-6">
+                                    <label>Thumbnail</label>
+                                    <input id="upload-input" class="dropify" type="file" name="thumbnail"></br>
+                                    <label>Logo</label>
+                                    <input id="upload-input" class="dropify" type="file" name="logo"></br>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Channel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+         </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        <script src="/js/bootstrap-editable.min.js"></script>
+        <script>
+
+            $(document).ready(function() {
+
+                // Initialize Datatable
+                $('#myTable').DataTable({
+                    "order": [[ 2, "desc" ]]
+                });
+
+                // Initialize Editable
+                $.fn.editable.defaults.mode = 'inline';     
+                $('.editable').editable();
+
+                // Initialize Dropfiy Fileupload
+                $('.dropify').dropify();
+
+                // Delete
+                $(".delete").click(function () {
+                    var url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+
+                // Post call when active change
+                $( ".checkbox" ).change(function() {
+                    let _id = $(this).attr('data-id');
+                    let active = $(this).is(":checked");
+                    console.log(_id, active);
+                    $.post( "/channel/update?_id=" + _id ,  { active }, function( data ) {
+                        alert(data);
+                    });
+                });
+            });
+        </script>
+    {% endblock %}       

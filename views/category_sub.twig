@@ -1,0 +1,88 @@
+{% extends 'layout.twig' %}
+
+    {% block head %}
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">Subcategories of {{category.name}}</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        {# <h4 class="card-title">Data Table</h4> #}
+                        <div class="table-responsive">
+                            <table id="myTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Added Date</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subcat in subcatList %}
+                                        <tr>
+                                            <td>{{subcat.name}}</td>
+                                            <td>{{subcat.description}}</td>
+                                            <td>{{subcat.added_dtm|date("Y-m-d H:i:s", false)}}</td>
+                                            <td class="text-nowrap">
+                                                {# <a href="/category/edit/{{ category._id }}" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> #}
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/category/delete?cat_id={{category._id}}&subcat_id={{subcat._id}}"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <h2>Add Subcategory to {{category.name}}</h2>
+                        <form method="post" action="/category/add_subcat?cat_id={{ category._id}}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="name" placeholder="Name">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Subcategory</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+         </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "order": [[ 1, "desc" ]]
+                });
+                $(".delete").click(function () {
+                    var url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+            });
+        </script>
+    {% endblock %}       

@@ -1,0 +1,90 @@
+const axios = require('axios');
+
+
+exports.get = async (req, res) => {
+	
+	let resp = await axios.get(`http://localhost:3000/anchor`);
+	let list = resp.data;
+
+	res.render('anchor', {title: 'Video', list});
+}
+
+exports.add = async (req, res) => {
+
+	let postData = req.body;
+	console.log(postData);
+
+	let resp = await axios.post(`http://localhost:3000/anchor`, postData);
+	resp = resp.data;
+	console.log(resp);
+	
+	res.redirect('/anchor');
+}
+
+exports.update = async (req, res) => {
+
+	let { _id } = req.query;
+	let postData = req.body;
+	console.log(postData);
+
+	let resp = await axios.put(`http://localhost:3000/anchor?_id=${_id}`, postData);
+	resp = resp.data;
+	console.log(resp);
+	
+	res.send("Updated!");
+}
+
+exports.editable = async (req, res) => {
+
+	const postData = req.body;
+	console.log(postData);
+
+	const { name, value, pk } = postData;
+	console.log(name, value, pk);
+
+	let resp = await axios.put(`http://localhost:3000/anchor?_id=${pk}`, {[name]: value});
+	resp = resp.data;
+	console.log(resp);
+	
+	res.send("Updated!");
+}
+
+exports.delete = async (req, res) => {
+
+	const { _id } = req.query;
+	let resp = await axios.delete(`http://localhost:3000/anchor?_id=${_id}`);
+	res.send('Deleted!');
+}
+
+// API CALLS -----------------------------------
+exports.html = async (req, res) => {
+
+    let resp = await axios.get(`http://localhost:3000/anchor`);
+	resp = resp.data;
+    // console.log(resp);
+    
+    let html = [];
+    resp.forEach(el => html.push( {"text": el.name, "value": el.name} ));
+    // console.log(catsHtml);
+    res.send(html);
+}
+
+exports.weightage = async (req, res) => {
+
+    let resp = [
+		{name: '1'},
+		{name: '2'},
+		{name: '3'},
+		{name: '4'},
+		{name: '5'},
+		{name: '6'},
+		{name: '7'},
+		{name: '8'},
+		{name: '9'},
+		{name: '10'}
+	];
+    
+    let html = [];
+    resp.forEach(el => html.push( {"text": el.name, "value": el.name} ));
+    res.send(html);
+}

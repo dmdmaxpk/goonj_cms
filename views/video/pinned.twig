@@ -1,0 +1,127 @@
+{% extends '../layout.twig' %}
+
+    {% block head %}
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">{{ title }}</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            {% if pinned != null %}
+                            <h4 class="card-title">Pinned Table</h4>
+                            <div class="table-responsive">
+                                <table id="pinnedTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Added Date</th>
+                                            <th>Category</th>
+                                            <th>Feed</th>
+                                            <th>Duration</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for pin in pinned %}
+                                            <tr>
+                                                <td>{{pin.title}}</td>
+                                                <td>{{pin.added_dtm|date("Y-m-d H:i:s", true)}}</td>
+                                                <td>{{pin.category}}</td>
+                                                <td>{{pin.feed}} </td>
+                                                <td>{{pin.duration}} </td>
+                                                <td class="text-nowrap">
+                                                    <a class="unpinvideo" data-toggle="tooltip" data-original-title="Unpin" data-vid='{{ pin._id }}'> <i class="fa fa-unlink text-inverse m-r-10"></i> </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                            <h4 class="card-title" style="margin-top: 40px;">Videos Table</h4>
+                            <div class="table-responsive">
+                                <table id="unpinnedTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Added Date</th>
+                                            <th>Category</th>
+                                            <th>Feed</th>
+                                            <th>Duration</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for video in videoList %}
+                                            <tr>
+                                                <td>{{video.title}}</td>
+                                                <td>{{video.added_dtm|date("Y-m-d H:i:s", true)}}</td>
+                                                <td>{{video.category}}</td>
+                                                <td>{{video.feed}} </td>
+                                                <td>{{video.duration}} </td>
+                                                <td class="text-nowrap">
+                                                    <a class="pinvideo" data-toggle="tooltip" data-original-title="Pin" data-vid='{{ video._id }}'> <i class="fa fa-link text-inverse m-r-10"></i> </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#unpinnedTable').DataTable({
+                    "order": [[ 1, "desc" ]]
+                });
+
+                $('.unpinvideo').click(function(){
+                    let vidId = $(this).attr('data-vid');
+                    console.log(vidId);
+                    $.post( "/video/edit/" + vidId ,  { pinned: false }, function( data ) {
+                        alert(data);
+                        location.reload();
+                    });
+                })
+
+                $('.pinvideo').click(function(){
+                    let vidId = $(this).attr('data-vid');
+                    console.log(vidId);
+                    $.post( "/video/edit/" + vidId ,  { pinned: true }, function( data ) {
+                        alert(data);
+                        location.reload();
+                    });
+                })
+            });
+        </script>
+    {% endblock %}

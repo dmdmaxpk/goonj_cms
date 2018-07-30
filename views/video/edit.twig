@@ -1,0 +1,263 @@
+{% extends '../layout.twig' %}
+
+    {% block head %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
+        <style>
+            .fstElement {
+                font-size: 0.8em;
+            }
+            .fstElement {
+                width: 100%;
+            }
+        </style>
+    {% endblock %}
+
+    {% block body %}
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">{{ title }}</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <form id="videoform" method="post" action="/video/edit/{{ video._id }}">
+                <div class="row card card-body" style="flex-direction: row;">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{video.title}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div>Description</div>
+                                <textarea id="summernote" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div>Category</div>
+                                <input  
+                                    id="category"
+                                    type="text"
+                                    class="fastSelect"
+                                    value='{{ video.category }}'
+                                    {# data-initial-value='{{ video.categoryHtml }}' #}
+                                    data-initial-value='[{"text": "{{ video.category }}", "value" : "{{ video.category }}"}]'
+                                    data-user-option-allowed="true"
+                                    data-url="/category/html_cats"
+                                    data-load-once="true"
+                                    name="category"
+                                />
+                                <div>SubCategory</div>
+                                <select id="sub_category" class="form-control" name="sub_category" style="height: 300px;" multiple>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <div>Source</div>
+                                <input  
+                                    id="source"
+                                    type="text"
+                                    class="fastSelect"
+                                    value='{{ video.source }}'
+                                    data-initial-value='[{"text": "{{ video.source }}", "value" : "{{ video.source }}"}]'
+                                    data-user-option-allowed="true"
+                                    data-url="/category/html_cats"
+                                    data-load-once="true"
+                                    name="source"
+                                />
+                                <div>Feed</div>
+                                <input  
+                                    id="feed"
+                                    type="text"
+                                    class="fastSelect"
+                                    value='{{ video.feed }}'
+                                    data-initial-value='[{"text": "{{ video.feed }}", "value" : "{{ video.feed }}"}]'
+                                    data-user-option-allowed="true"
+                                    data-url="/feed/html"
+                                    data-load-once="true"
+                                    name="feed"
+                                />
+                                {# <div>Feed</div>
+                                <div class="radio-buttons">
+                                    <input name="feed" value="home" type="radio" id="radio_1" checked />
+                                    <label for="radio_1">Home</label>
+                                    <input name="feed" value="cricket" type="radio" id="radio_2" />
+                                    <label for="radio_2">Cricket</label>
+                                    <input name="feed" value="comedy" type="radio" id="radio_3" />
+                                    <label for="radio_3">Comedy</label>
+                                </div> #}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">  
+                        <div class="row">  
+                            <div class="col-12">
+                                <div>
+                                    <div>Topics</div>
+                                    <input  
+                                        id="topics"
+                                        type="text"
+                                        multiple
+                                        class="fastSelect"
+                                        value='{{ video.topics }}'
+                                        data-initial-value='{{ video.topicsHtml }}'
+                                        data-user-option-allowed="true"
+                                        data-url="/topic/html"
+                                        data-load-once="true"
+                                        name="topics"
+                                    />
+                                    <div>Programs</div>
+                                    <input  
+                                        id="program"
+                                        type="text"
+                                        multiple
+                                        class="fastSelect"
+                                        value='{{ video.program }}'
+                                        {# data-initial-value='{{ video.programHtml }}' #}
+                                        data-initial-value='[{"text": "{{ video.program }}", "value" : "{{ video.program }}"}]'
+                                        data-user-option-allowed="true"
+                                        data-url="/program/html"
+                                        data-load-once="true"
+                                        name="program"
+                                    />
+                                    <div>Anchor</div>
+                                    <input  
+                                        id="anchor"
+                                        type="text"
+                                        class="fastSelect"
+                                        value='{{ video.anchor }}'
+                                        {# data-initial-value='{{ video.anchorHtml }}' #}
+                                        data-initial-value='[{"text": "{{ video.anchor }}", "value" : "{{ video.anchor }}"}]'
+                                        data-user-option-allowed="true"
+                                        data-url="http://dbrekalo.github.io/fastselect/demo/data.json"
+                                        data-load-once="true"
+                                        name="anchor"
+                                    />
+                                    <div>Guests</div>
+                                    <input  
+                                        id="guests"
+                                        type="text"
+                                        multiple
+                                        class="fastSelect"
+                                        value='{{ video.guests }}'
+                                        data-initial-value='{{ video.guestsHtml }}'
+                                        data-user-option-allowed="true"
+                                        data-url="http://dbrekalo.github.io/fastselect/demo/data.json"
+                                        data-load-once="true"
+                                        name="guests"
+                                    />
+                                    <label for="input-file-now">Video</label>
+                                    <div class="progress-bar" id="progress-bar"></div>
+                                    {# You cant set values for files, it will be not be sent if not changed but if new video is uploaded then it will replace the name #}
+                                    <input type="hidden" name="old_file_name" value="{{ video.file_name }}">
+                                    <input id="upload-input" class="dropify" type="file" name="file_name"></br>
+                                    <input type="hidden" id="duration" name="duration" value="{{ video.duration }}">
+
+                                    <label for="input-file-now">Thumbnail</label>
+                                    <div class="progress-bar" id="progress-bar2"></div>
+                                    <input type="hidden" name="old_thumbnail" value="{{video.thumbnail}}">
+                                    <input id="upload-input2" class="dropify" type="file" name="thumbnail"></br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" id="btnSubmit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            
+        </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+        {# Bold/Italic not working in minified summernote version #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        <script src="/js/upload.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+                // Summernote Initialization 
+                $('#summernote').summernote({
+                    placeholder: 'write here...',
+                    height: 350, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: false, // set focus to editable area after initializing summernote
+                    styleTags: ['p', 'h1', 'h2'],
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                    ]
+                });
+
+                var markupStr = '{{video.description}}';
+                $('#summernote').summernote('code', markupStr);
+                // FastSelect Initialization 
+                $('.fastSelect').fastselect({
+                    maxItems: 5
+                });
+
+                $('#category').fastselect({
+                    url: "http://dbrekalo.github.io/fastselect/demo/data.json"
+                });
+
+                // Dropify File Upload Initialization 
+                $('.dropify').dropify();
+
+                // Removing selected options on Category Select.
+                function removeOptions(selectbox) {
+                    var i;
+                    for (i = selectbox.options.length - 1; i >= 0; i--) {
+                        selectbox.remove(i);
+                    }
+                }
+
+                // Loading subcategories
+                function loadSubcategory(val) {
+                    removeOptions(sub_category);
+
+                    $.get("/category/html_subcats?cat_name=" + val, function (data) {
+                        var subCat = "{{ video.sub_category }}";
+
+                        for(i=0; i<data.length; i++){
+                            var option = document.createElement("option");
+
+                            if (subCat == data[i].title) {
+                                option.text = data[i].title;
+                                option.value = data[i].title;
+                                option.selected = "selected";
+                            }
+                            else {
+                                option.text = data[i].title;
+                                option.value = data[i].title;
+                            }
+                            sub_category.add(option);
+                        }
+                    });
+                }
+
+                // Load selected subcategories on page load for selected category
+                loadSubcategory("{{video.category}}");
+                
+                // Load subcategories for a category
+                $("#category").change(function () {
+                    loadSubcategory($(this).val());
+                });
+            });
+        </script>
+    {% endblock %}       

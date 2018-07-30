@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Goonj CMS</title>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    
+    {% block head %}{% endblock %}
+    
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="/css/colors/megna-dark.css" id="theme" rel="stylesheet">
+
+</head>
+
+<body class="fix-header card-no-border">
+    {# Spinner #}
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    Goonj
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0 float-right">
+                        {# <li class="nav-item"><a class="nav-link text-muted" href=""><i class="fa fa-power-off"></i> Logout</a></li> #}
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">Video</li>
+						<li><a href="/video">List </a></li>
+						<li><a href="/video/add">Add</a></li>
+						<li><a href="/video/pinned">Pinned</a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Category</li>
+						<li><a href="/category">List </a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Topic</li>
+						<li><a href="/topic">List </a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Program</li>
+						<li><a href="/program">List </a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Anchor</li>
+						<li><a href="/anchor">List </a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Guest</li>
+						<li><a href="/guest">List </a></li>
+                        <li class="nav-devider"></li>
+						<li class="nav-small-cap">Channel</li>
+						<li><a href="/channel">List </a></li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+
+            {% block body %}{% endblock %}
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <!--Custom JavaScript -->
+    <script src="/js/custom.js"></script>
+
+    {% block foot %}{% endblock %}
+
+</body>
+</html>

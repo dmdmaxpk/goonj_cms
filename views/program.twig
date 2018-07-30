@@ -1,0 +1,96 @@
+{% extends 'layout.twig' %}
+
+    {% block head %}
+    <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">Programs</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <div class="table-responsive m-t-40">
+                            <table id="myTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Added Date</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for program in list %}
+                                        <tr>
+                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="name" data-send="always" data-url='/program/editable' data-value='{{ program.name }}'></a></td>
+                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="description" data-send="always" data-url='/program/editable' data-value='{{ program.description }}'></a></td>
+                                            <td>{{program.added_dtm|date("Y-m-d H:i:s", false)}}</td>
+                                            <td class="text-nowrap">
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/program/delete?_id={{ program._id }}"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <h2>Add Program</h2>
+                        <form method="post" action="/program/add">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="name" placeholder="Name">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Program</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+         </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="/js/bootstrap-editable.min.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                // Initialize Datatable
+                $('#myTable').DataTable({
+                    "order": [[ 0, "desc" ]]
+                });
+
+                // Initialize Editable
+                $.fn.editable.defaults.mode = 'inline';     
+                $('.editable').editable();
+
+                // Delete
+                $(".delete").click(function () {
+                    var url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+            });
+        </script>
+    {% endblock %}       
