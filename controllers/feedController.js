@@ -1,9 +1,9 @@
 const axios = require('axios');
-
+const config = require('../config/config');
 
 exports.get = async (req, res) => {
 	
-	let resp = await axios.get(`http://localhost:3000/feed`);
+	let resp = await axios.get(`${config.videoServiceUrl}/feed`);
 	let list = resp.data;
 
 	res.render('./tags/list', {title: 'Video', list});
@@ -14,7 +14,7 @@ exports.post = async (req, res) => {
 	let postData = req.body;
 	console.log(postData);
 
-	let resp = await axios.post(`http://localhost:3000/tag`, postData);
+	let resp = await axios.post(`${config.videoServiceUrl}/tag`, postData);
 	resp = resp.data;
 	console.log(resp);
 	
@@ -26,14 +26,14 @@ exports.post = async (req, res) => {
 exports.delete = async (req, res) => {
 
 	const { _id } = req.query;
-	let resp = await axios.delete(`http://localhost:3000/tag?_id=${_id}`);
+	let resp = await axios.delete(`${config.videoServiceUrl}/tag?_id=${_id}`);
 	res.send('Deleted!');
 }
 
 // API CALLS -----------------------------------
 exports.html = async (req, res) => {
 
-    // let resp = await axios.get(`http://localhost:3000/tag`);
+    // let resp = await axios.get(`${config.videoServiceUrl}/tag`);
 	// resp = resp.data;
 	// console.log(resp);
 	

@@ -1,9 +1,9 @@
 const axios = require('axios');
-
+const config = require('../config/config');
 
 exports.get = async (req, res) => {
 	
-	let resp = await axios.get(`http://localhost:3000/program`);
+	let resp = await axios.get(`${config.videoServiceUrl}/program`);
 	let list = resp.data;
 
 	res.render('program', {title: 'Video', list});
@@ -14,7 +14,7 @@ exports.add = async (req, res) => {
 	let postData = req.body;
 	console.log(postData);
 
-	let resp = await axios.post(`http://localhost:3000/program`, postData);
+	let resp = await axios.post(`${config.videoServiceUrl}/program`, postData);
 	resp = resp.data;
 	console.log(resp);
 	
@@ -29,7 +29,7 @@ exports.editable = async (req, res) => {
 	const { name, value, pk } = postData;
 	console.log(name, value, pk);
 
-	let resp = await axios.put(`http://localhost:3000/program?_id=${pk}`, {[name]: value});
+	let resp = await axios.put(`${config.videoServiceUrl}/program?_id=${pk}`, {[name]: value});
 	resp = resp.data;
 	console.log(resp);
 	
@@ -39,14 +39,14 @@ exports.editable = async (req, res) => {
 exports.delete = async (req, res) => {
 
 	const { _id } = req.query;
-	let resp = await axios.delete(`http://localhost:3000/program?_id=${_id}`);
+	let resp = await axios.delete(`${config.videoServiceUrl}/program?_id=${_id}`);
 	res.send('Deleted!');
 }
 
 // API CALLS -----------------------------------
 exports.html = async (req, res) => {
 
-    let resp = await axios.get(`http://localhost:3000/program`);
+    let resp = await axios.get(`${config.videoServiceUrl}/program`);
 	resp = resp.data;
     // console.log(resp);
     
