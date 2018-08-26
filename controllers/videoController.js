@@ -1,12 +1,14 @@
 const axios = require('axios');
 const formidable = require('formidable');
-
+const fs = require('fs');
+const path = require('path');
+const config = require('../config/config');
 
 exports.getAllVideos = async (req, res) => {
 
 	const { limit } = req.query;
 
-	let { data: videoList } = await axios.get(`http://localhost:3000/video?limit=${limit || 50}`);
+	let { data: videoList } = await axios.get(`${config.videoServiceUrl}/video?limit=${limit || 50}`);
 	res.render('./video/list', {title: 'Video', videoList});
 }
 
@@ -20,13 +22,13 @@ exports.postVideo = async (req, res) => {
 	let postData = req.body;
 	postData.topics = postData.topics.split(',');
 	postData.guests = postData.guests.split(',');
+	postData.duration = parseInt(postData.duration);
 	console.log(postData);
 
-	// Step 1: Post to MongoDB
-	axios.post('http://localhost:3000/video', postData);
-	// Step 2: Send to transcode from here or video service?
+	// Post to MongoDB
+	axios.post(`${config.videoServiceUrl}/video`, postData);
 	
-	res.send("Video Added!");
+	res.send("Video Added!");	// TODO: Redirect to video page
 }
 
 exports.view = async (req, res) => {
@@ -34,7 +36,7 @@ exports.view = async (req, res) => {
 	const { _id } = req.params;
 	console.log(_id);
 
-	let resp = await axios.get(`http://localhost:3000/video?_id=${_id}`);
+	let resp = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 	let result = resp.data;
 	// Getting filename without extension for player
 	result.file_name_short = result.file_name.split('.')[0];
@@ -47,7 +49,7 @@ exports.editView = async (req, res) => {
 	const { _id } = req.params;
 	console.log(_id);
 
-	let resp = await axios.get(`http://localhost:3000/video?_id=${_id}`);
+	let resp = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 	let result = resp.data;
 	// console.log(result);
 
@@ -83,7 +85,8 @@ exports.editPost = async (req, res) => {
 	// For updating the thumbs and filenames
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
-	let { data: result } = await axios.put(`http://localhost:3000/video?_id=${_id}`, postData);
+
+	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
 	console.log(result);
 
 	// Send to Recommendation Service
@@ -95,8 +98,8 @@ exports.editPost = async (req, res) => {
 
 exports.pinned = async (req, res) => {
 	
-	let respPinned = await axios.get(`http://localhost:3000/video?pinned=true`);
-	let respAll = axios.get(`http://localhost:3000/video`);
+	let respPinned = await axios.get(`${config.videoServiceUrl}/video?pinned=true`);
+	let respAll = axios.get(`${config.videoServiceUrl}/video`);
 	
 	let [pinnedVideo, allVideos] = await Promise.all([respPinned, respAll]);
 
@@ -110,7 +113,7 @@ exports.delete = async (req, res) => {
 
 	const query = { _id: req.query._id };
 
-	let resp = await axios.delete(`http://localhost:3000/video`);
+	let resp = await axios.delete(`${config.videoServiceUrl}/video`);
 	let videos = resp.data;
 	
 	if (result) {
@@ -133,10 +136,11 @@ exports.uploadVideoFile = async (req, res) => {
     console.log("parsing done");
 
 
-    // store all uploads in the /uploads directory
+	// store all uploads in the /uploads directory
+	console.log(config.videodir);
     form.uploadDir = config.videodir; //path.join(__dirname, '/uploads');
-    form.maxFileSize = 6000 * 1024 * 1024
-    console.log(form.uploadDir);
+    form.maxFileSize = 6000 * 1024 * 1024;
+
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
     form.on('file', function (field, file) {
@@ -144,7 +148,7 @@ exports.uploadVideoFile = async (req, res) => {
         // var dateTime = new Date().getTime();
         // var timestamp = Math.floor(dateTime / 1000);
         // filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
-        fs.rename(file.path, path.join(form.uploadDir, file.name));
+        fs.renameSync(file.path, path.join(form.uploadDir, file.name));
     });
 
     // log any errors that occur
@@ -174,7 +178,6 @@ exports.uploadThumbnail = async (req, res) => {
 
     // store all uploads in the /uploads directory
     form.uploadDir = config.avatardir; //path.join(__dirname, '/uploads');
-    // form.uploadDir = 'C:\\aaa'; //path.join(__dirname, '/uploads');
     form.maxFileSize = 20 * 1024 * 1024
 
     // every time a file has been uploaded successfully,
@@ -186,7 +189,7 @@ exports.uploadThumbnail = async (req, res) => {
         // var dateTime = new Date().getTime();
         // var timestamp = Math.floor(dateTime / 1000);
         // filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
-        fs.rename(file.path, path.join(form.uploadDir, file.name));
+        fs.renameSync(file.path, path.join(form.uploadDir, file.name));
     });
 
     // log any errors that occur
