@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Default route to /video
+router.get('/', (req, res) => res.redirect('/video'));
+
 router.use('/video',    require('./videoRoutes'));
 router.use('/category', require('./categoryRoutes'));
 router.use('/program',  require('./programRoutes'));
