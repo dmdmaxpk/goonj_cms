@@ -23,7 +23,7 @@ exports.postVideo = async (req, res) => {
 	postData.topics = postData.topics.split(',');
 	postData.guests = postData.guests.split(',');
 	postData.duration = parseInt(postData.duration);
-	console.log(postData);
+	console.log(`New Video Added: ${postData}`);
 
 	// Post to MongoDB
 	axios.post(`${config.videoServiceUrl}/video`, postData);
@@ -167,7 +167,7 @@ exports.uploadVideoFile = async (req, res) => {
 };
 
 exports.uploadThumbnail = async (req, res) => {
-    console.log("THUMB!!");
+    console.log("Uploading thumbnail..");
     // create an incoming form object
     var form = new formidable.IncomingForm();
 

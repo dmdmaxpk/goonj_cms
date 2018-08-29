@@ -71,7 +71,6 @@ exports.html_subcats = async (req, res) => {
 
 	let resp = await axios.get(`${config.videoServiceUrl}/category?cat_name=${cat_name}`);
 	let result = resp.data.sub_categories;
-    console.log(result);
     res.send(result);
 }
 
