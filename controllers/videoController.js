@@ -22,8 +22,8 @@ exports.postVideo = async (req, res) => {
 	let postData = req.body;
 	postData.topics = postData.topics.split(',');
 	postData.guests = postData.guests.split(',');
-	postData.duration = parseInt(postData.duration);
-	console.log(`New Video Added: ${postData}`);
+	postData.duration = parseInt(postData.duration);	// Duration is read in float, e.g 13.24 -> 13
+	console.log(postData);
 
 	// Post to MongoDB
 	axios.post(`${config.videoServiceUrl}/video`, postData);
@@ -34,7 +34,7 @@ exports.postVideo = async (req, res) => {
 exports.view = async (req, res) => {
 
 	const { _id } = req.params;
-	console.log(_id);
+	console.log(`Video view: ${_id}`);
 
 	let resp = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 	let result = resp.data;
