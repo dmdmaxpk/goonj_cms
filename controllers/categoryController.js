@@ -57,11 +57,9 @@ exports.html_cats = async (req, res) => {
 
     let resp = await axios.get(`${config.videoServiceUrl}/category`);
 	let categories = resp.data;
-    console.log(categories);
     
     let catsHtml = [];
     categories.forEach(el => catsHtml.push( {"text": el.name, "value": el.name} ));
-    // console.log(catsHtml);
     res.send(catsHtml);
 }
 
