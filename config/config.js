@@ -2,7 +2,8 @@ const env = process.env.NODE_ENV || 'development';
 
 let config = {
     development: {
-        videoServiceUrl: 'http://localhost:3000',
+        // videoServiceUrl: 'http://localhost:3000',
+        videoServiceUrl: 'http://10.3.7.101:3000',
         port: '3003',
     },
     staging: {
@@ -10,8 +11,13 @@ let config = {
         port: '3000',
     },
     production: {
-        videoServiceUrl: 'http://localhost:3000',
-        port: '3000',
+        videoServiceUrl: 'http://10.3.7.101:3000',
+        port: '4000',
+    },
+    // TODO: Remove this after removing old CMS/API and changing NODE_ENV to production
+    productionlocal: {
+        videoServiceUrl: 'http://10.3.7.101:3000',
+        port: '4000',
     }
 };
 
@@ -20,11 +26,14 @@ console.log("---", env);
 if (env === 'development')  config = config.development;
 if (env === 'staging')      config = config.staging;
 if (env === 'production')   config = config.production;
+// TODO: Same removal
+if (env === 'productionlocal')   config = config.productionlocal;
 
 // Common configs
-// config.avatardir= path.join(__dirname, '/../../../../../qma/curated_content/transrated_content/images/');
-config.avatardir= '/home/';
-// config.videodir= path.join(__dirname, '/../../../../../qma/curated_content/raw_content/');
-config.videodir= '/home/';
+// Dir for Videos Upload
+config.videodir= '/qma/curated_content/raw_content/';
+
+// Dir for Thumbnails Upload
+config.avatardir= '/qma/curated_content/transrated_content/images';
 
 module.exports = config;
