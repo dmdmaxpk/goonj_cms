@@ -25,10 +25,10 @@ exports.postVideo = async (req, res) => {
 	postData.duration = parseInt(postData.duration);	// Duration is read in float, e.g 13.24 -> 13
 	console.log(postData);
 
-	// Post to MongoDB
+	// Post to Video Service
 	axios.post(`${config.videoServiceUrl}/video`, postData);
 	
-	res.send("Video Added!");	// TODO: Redirect to video page
+	res.redirect('/video');
 }
 
 exports.view = async (req, res) => {
@@ -93,7 +93,7 @@ exports.editPost = async (req, res) => {
 	// if (postData.active = true) {
 	// 	axios.post()
 	// }
-	res.send("Video Updated!");
+	res.redirect('/video');
 }
 
 exports.pinned = async (req, res) => {
@@ -133,12 +133,11 @@ exports.uploadVideoFile = async (req, res) => {
 
     // specify that we want to allow the user to upload multiple files in a single request
     form.multiples = true;
-    console.log("parsing done");
-
+    console.log("Uploading Video..");
 
 	// store all uploads in the /uploads directory
-	console.log(config.videodir);
-    form.uploadDir = config.videodir; //path.join(__dirname, '/uploads');
+	console.log(config.video_dir);
+    form.uploadDir = config.video_dir; //path.join(__dirname, '/uploads');
     form.maxFileSize = 6000 * 1024 * 1024;
 
     // every time a file has been uploaded successfully,
@@ -173,11 +172,10 @@ exports.uploadThumbnail = async (req, res) => {
 
     // specify that we want to allow the user to upload multiple files in a single request
     form.multiples = true;
-    console.log("parsing done");
-
+    console.log("Uploading Thumb..");
 
     // store all uploads in the /uploads directory
-    form.uploadDir = config.avatardir; //path.join(__dirname, '/uploads');
+    form.uploadDir = config.thumb_dir; //path.join(__dirname, '/uploads');
     form.maxFileSize = 20 * 1024 * 1024
 
     // every time a file has been uploaded successfully,
