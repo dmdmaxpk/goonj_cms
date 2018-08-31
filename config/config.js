@@ -31,9 +31,9 @@ if (env === 'productionlocal')   config = config.productionlocal;
 
 // Common configs
 // Dir for Videos Upload
-config.videodir= '/qma/curated_content/raw_content/';
+config.video_dir= '/qma/telenor/videos/';
 
 // Dir for Thumbnails Upload
-config.avatardir= '/qma/curated_content/transrated_content/images';
+config.thumb_dir= '/qma/telenor/thumbs';
 
 module.exports = config;
