@@ -13,7 +13,7 @@ $('#upload-input').on('change', function () {
     vid.src = fileURL;
     // wait for duration to change from NaN to the actual duration
     vid.ondurationchange = function () {
-        alert(this.duration);
+        // alert(this.duration);
         $('#duration').val(this.duration);
     };
     if (files.length > 0) {
