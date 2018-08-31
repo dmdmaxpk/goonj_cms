@@ -36,8 +36,8 @@ exports.view = async (req, res) => {
 	const { _id } = req.params;
 	console.log(`Video view: ${_id}`);
 
-	let resp = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
-	let result = resp.data;
+	let { data:result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
+
 	// Getting filename without extension for player
 	result.file_name_short = result.file_name.split('.')[0];
 	console.log(result);
@@ -49,24 +49,23 @@ exports.editView = async (req, res) => {
 	const { _id } = req.params;
 	console.log(_id);
 
-	let resp = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
-	let result = resp.data;
-	// console.log(result);
+	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
-	// TODO: If empty then dont make the htmls
-	// Making tuples for dropdown boxes:
-
+	// <<<Tuples for dropdown boxes
 	let topicsHtml = [];
-	result.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
-
 	let guestsHtml = [];
-	result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el} ));
+
+	// Checking if the Array is not empty
+	if (result.topics[0] !== '')	result.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
+	// Checking if the Array is not empty
+	if (result.guests[0]) result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el} ));
 
 	result.topics = result.topics.toString();
 	result.topicsHtml = JSON.stringify(topicsHtml);
 
 	result.guests = result.guests.toString();
 	result.guestsHtml = JSON.stringify(guestsHtml);
+	// Tuples for dropdown boxes>>>
 
 	console.log(result);
 	res.render('./video/edit', {title: 'Edit Video', video:result});
@@ -78,13 +77,18 @@ exports.editPost = async (req, res) => {
 	console.log("Edit Post ID: ", _id);
 
 	let postData = req.body;
-	if (postData.topics) postData.topics.split(',');
-	if (postData.guests) postData.guests.split(',');
-	console.log(postData);
-
+	if (postData.topics) {
+		postData.topics = postData.topics.split(',');
+	}
+	if (postData.guests) {
+		postData.guests = postData.guests.split(',');
+	}
+	
 	// For updating the thumbs and filenames
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
+	
+	console.log("EDIT POST DATA:", postData);
 
 	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
 	console.log(result);
@@ -108,22 +112,16 @@ exports.pinned = async (req, res) => {
 	res.render('./video/pinned', {title: 'Pinned Videos', videoList: allVideos.data, pinned});
 	
 }
-// TODO: Pending
+
 exports.delete = async (req, res) => {
 
-	const query = { _id: req.query._id };
+	const { _id } = req.query;
 
-	let resp = await axios.delete(`${config.videoServiceUrl}/video`);
-	let videos = resp.data;
+	let { data: result } = await axios.delete(`${config.videoServiceUrl}/video?_id=${_id}`);
 	
-	if (result) {
-		console.log(`Video _id: ${query._id} Deleted!`);
-		res.send(`Video _id: ${query._id} Deleted!`);
-	}
-	else {
-		console.log('No video with this ID found!');
-		res.send('No video with this ID found!');
-	}
+	console.log(result);
+	res.send(result);
+
 }
 
 

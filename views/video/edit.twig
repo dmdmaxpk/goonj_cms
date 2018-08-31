@@ -49,7 +49,6 @@
                                     type="text"
                                     class="fastSelect"
                                     value='{{ video.category }}'
-                                    {# data-initial-value='{{ video.categoryHtml }}' #}
                                     data-initial-value='[{"text": "{{ video.category }}", "value" : "{{ video.category }}"}]'
                                     data-user-option-allowed="true"
                                     data-url="/category/html_cats"
@@ -121,8 +120,11 @@
                                         multiple
                                         class="fastSelect"
                                         value='{{ video.program }}'
-                                        {# data-initial-value='{{ video.programHtml }}' #}
+                                        {% if video.program %}
                                         data-initial-value='[{"text": "{{ video.program }}", "value" : "{{ video.program }}"}]'
+                                        {% else %}
+                                        data-initial-value=''
+                                        {% endif %}
                                         data-user-option-allowed="true"
                                         data-url="/program/html"
                                         data-load-once="true"
@@ -134,8 +136,11 @@
                                         type="text"
                                         class="fastSelect"
                                         value='{{ video.anchor }}'
-                                        {# data-initial-value='{{ video.anchorHtml }}' #}
+                                        {% if video.anchor %}
                                         data-initial-value='[{"text": "{{ video.anchor }}", "value" : "{{ video.anchor }}"}]'
+                                        {% else %}
+                                        data-initial-value=''
+                                        {% endif %}
                                         data-user-option-allowed="true"
                                         data-url="http://dbrekalo.github.io/fastselect/demo/data.json"
                                         data-load-once="true"
