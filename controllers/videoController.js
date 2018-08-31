@@ -77,12 +77,8 @@ exports.editPost = async (req, res) => {
 	console.log("Edit Post ID: ", _id);
 
 	let postData = req.body;
-	if (postData.topics) {
-		postData.topics = postData.topics.split(',');
-	}
-	if (postData.guests) {
-		postData.guests = postData.guests.split(',');
-	}
+	if (postData.topics) postData.topics = postData.topics.split(',');
+	if (postData.guests) postData.guests = postData.guests.split(',');
 	
 	// For updating the thumbs and filenames
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
@@ -110,7 +106,6 @@ exports.pinned = async (req, res) => {
 	console.log(pinnedVideo.data);
 	let pinned = pinnedVideo.data;
 	res.render('./video/pinned', {title: 'Pinned Videos', videoList: allVideos.data, pinned});
-	
 }
 
 exports.delete = async (req, res) => {
@@ -121,7 +116,6 @@ exports.delete = async (req, res) => {
 	
 	console.log(result);
 	res.send(result);
-
 }
 
 
