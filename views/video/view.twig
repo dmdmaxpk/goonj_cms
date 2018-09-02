@@ -140,7 +140,7 @@
             function activateVideo(){
                 $.post( "/video/edit/{{ video._id }}", {active: true}, function( data ) {
                     console.log(data);
-                    alert(data);
+                    alert("Video Published!");
                     location.reload();             
                 });
             }
