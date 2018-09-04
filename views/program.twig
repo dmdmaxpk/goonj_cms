@@ -91,6 +91,14 @@
                         location.reload();
                     });
                 });
+
+                 // Initialize editable and fastSelect on pagination
+                $(".dataTables_paginate").click(function() {
+                    console.log( "Handler for .click() called." );
+                    $('.editable').editable();
+                    $('.fastSelect').fastselect();
+                });
+                
             });
         </script>
     {% endblock %}       

@@ -65,12 +65,9 @@
                                 <div class="col-6">
                                         <input name='name' type="text" class="form-control" placeholder="Name" required>
                                         <input name='description' type="text" class="form-control" placeholder="Description">
-                                        <input name='language' type="text" class="form-control" placeholder="Language">
                                         <input name='category' type="text" class="form-control" placeholder="Category">
                                         <input name='hls_link' type="text" class="form-control" placeholder="hls_link">
-                                        <input name='https_link' type="text" class="form-control" placeholder="https_link">
                                         <input name='seq' type="number" class="form-control" placeholder="Sequence">
-                                        <input name='country' type="text" class="form-control" placeholder="Country">
                                         <label>Active</label>
                                         <input id="chk" name='active' type="checkbox" class="form-control">
                                 </div>
@@ -125,6 +122,13 @@
                     $.post( "/channel/update?_id=" + _id ,  { active }, function( data ) {
                         alert(data);
                     });
+                });
+
+                // Initialize editable and fastSelect on pagination
+                $(".dataTables_paginate").click(function() {
+                    console.log( "Handler for .click() called." );
+                    $('.editable').editable();
+                    $('.fastSelect').fastselect();
                 });
             });
         </script>
