@@ -153,9 +153,26 @@
 
                 // Initialize editable and fastSelect on pagination
                 $(".dataTables_paginate").click(function() {
-                    console.log( "Handler for .click() called." );
                     $('.editable').editable();
                     $('.fastSelect').fastselect();
+
+                    // Delete
+                    $(".delete").click(function () {
+                        var url = $(this).attr("data-url");
+                        $.get(url, function (data) {
+                            location.reload();
+                        });
+                    });
+
+                    // Post call when weightage change
+                    $(".weightage").change(function () {
+                        let _id = $(this).attr('data-id');
+                        let weightage = $(this).val();
+                        console.log(_id, weightage);
+                        $.post( "/topic/update?_id=" + _id ,  { weightage }, function( data ) {
+                            alert(data);
+                        });
+                    });
                 });
             });
         </script>

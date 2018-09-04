@@ -97,6 +97,14 @@
                     console.log( "Handler for .click() called." );
                     $('.editable').editable();
                     $('.fastSelect').fastselect();
+
+                    // Delete
+                    $(".delete").click(function () {
+                        var url = $(this).attr("data-url");
+                        $.get(url, function (data) {
+                            location.reload();
+                        });
+                    });
                 });
                 
             });

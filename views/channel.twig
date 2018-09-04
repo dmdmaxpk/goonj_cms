@@ -110,6 +110,7 @@
                 $(".delete").click(function () {
                     var url = $(this).attr("data-url");
                     $.get(url, function (data) {
+                        alert(data);
                         location.reload();
                     });
                 });
@@ -126,9 +127,26 @@
 
                 // Initialize editable and fastSelect on pagination
                 $(".dataTables_paginate").click(function() {
-                    console.log( "Handler for .click() called." );
                     $('.editable').editable();
-                    $('.fastSelect').fastselect();
+
+                    // Delete
+                    $(".delete").click(function () {
+                        var url = $(this).attr("data-url");
+                        $.get(url, function (data) {
+                            alert(data);
+                            location.reload();
+                        });
+                    });
+
+                    // Post call when active change
+                    $( ".checkbox" ).change(function() {
+                        let _id = $(this).attr('data-id');
+                        let active = $(this).is(":checked");
+                        console.log(_id, active);
+                        $.post( "/channel/update?_id=" + _id ,  { active }, function( data ) {
+                            alert(data);
+                        });
+                    });
                 });
             });
         </script>
