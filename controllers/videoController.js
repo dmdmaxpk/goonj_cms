@@ -36,10 +36,11 @@ exports.view = async (req, res) => {
 	const { _id } = req.params;
 	console.log(`Video view: ${_id}`);
 
-	let { data:result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
+	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
 	// Getting filename without extension for player
 	result.file_name_short = result.file_name.split('.')[0];
+	result.slug = result.title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g,'-');	// Making slug from title by lower case, replacing special characters and spaces with -
 	console.log(result);
 
 	res.render('./video/view', {title: 'View Video', video:result});
