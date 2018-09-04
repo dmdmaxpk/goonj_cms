@@ -56,14 +56,14 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-4">
+                <div class="row m-t-30">
+                    <div class="col-sm-12">
                         <strong>Description:</strong>
                         <address>{{ video.description }}</address>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row m-t-30">
                     <div class="col-sm-4">
                         <strong>Added Date:</strong>
                         <address>{{ video.added_dtm }}</address>
@@ -115,13 +115,12 @@
                         <address>{{ video.guests }}</address>
                     </div>
                     <div class="col-sm-8">
-                        <strong>Link:</strong>
-                        <address>{{ video._id }}_{{ video.slug }}</address>
+                        <strong>URL:</strong>
+                        <address id="link" class="link">{{ video._id }}_{{ video.slug }}</address>
+                        <button class="btn" onclick="copyToClipboard('#link')">Copy URL</button>
                     </div>
                 </div>
                 
-                <div class="row">
-                </div>
             </div>
             <!-- ============================================================== -->
             <!-- End PAge Content -->
@@ -143,6 +142,14 @@
                     alert("Video Published!");
                     location.reload();             
                 });
+            }
+
+            function copyToClipboard(element) {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($(element).text()).select();
+                document.execCommand("copy");
+                $temp.remove();
             }
         </script>
     {% endblock %}       
