@@ -73,6 +73,7 @@ exports.html = async (req, res) => {
 exports.weightage = async (req, res) => {
 
     let resp = [
+		{name: '0'},
 		{name: '1'},
 		{name: '2'},
 		{name: '3'},
