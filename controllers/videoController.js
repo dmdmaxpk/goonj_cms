@@ -2,6 +2,7 @@ const axios = require('axios');
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
+const webp=require('webp-converter');
 const config = require('../config/config');
 
 exports.getAllVideos = async (req, res) => {
@@ -23,6 +24,7 @@ exports.postVideo = async (req, res) => {
 	postData.topics = postData.topics.split(',');
 	postData.guests = postData.guests.split(',');
 	postData.duration = parseInt(postData.duration);	// Duration is read in float, e.g 13.24 -> 13
+	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';
 	console.log(postData);
 
 	// Post to Video Service
@@ -131,16 +133,16 @@ exports.uploadVideoFile = async (req, res) => {
 	// store all uploads in the /uploads directory
 	console.log(config.video_dir);
     form.uploadDir = config.video_dir; //path.join(__dirname, '/uploads');
-    form.maxFileSize = 6000 * 1024 * 1024;
-
+    form.maxFileSize = 6000 * 1024 * 1024;	// 6GB
+	
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
     form.on('file', function (field, file) {
 		var filename = file.name;
         // var dateTime = new Date().getTime();
         // var timestamp = Math.floor(dateTime / 1000);
-        // filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
-        fs.renameSync(file.path, path.join(form.uploadDir, file.name));
+		// filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
+		fs.renameSync(file.path, path.join(form.uploadDir, file.name));
     });
 
     // log any errors that occur
@@ -159,28 +161,23 @@ exports.uploadVideoFile = async (req, res) => {
 };
 
 exports.uploadThumbnail = async (req, res) => {
-    console.log("Uploading thumbnail..");
+	
     // create an incoming form object
-    var form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm();
 
-    // specify that we want to allow the user to upload multiple files in a single request
-    form.multiples = true;
     console.log("Uploading Thumb..");
 
-    // store all uploads in the /uploads directory
-    form.uploadDir = config.thumb_dir; //path.join(__dirname, '/uploads');
-    form.maxFileSize = 20 * 1024 * 1024
+    form.uploadDir = config.thumb_dir;
+    form.maxFileSize = 20 * 1024 * 1024;	// 20MB
 
-    // every time a file has been uploaded successfully,
-    // rename it to it's orignal name
+    // rename thumbnail to its orignal name
     form.on('file', function (field, file) {
-		var filename = file.name;
-		// console.log("finemame", filename);
-		// console.log("filE", file);
-        // var dateTime = new Date().getTime();
-        // var timestamp = Math.floor(dateTime / 1000);
-        // filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
-        fs.renameSync(file.path, path.join(form.uploadDir, file.name));
+		let short_thumbnail = file.name.split('.')[0];	// Without extension
+
+		// Converting temp file into webp and moving it in /compressed folder
+		webp.cwebp(`${file.path}`,`${form.uploadDir}/compressed/${short_thumbnail}.webp`,"-q 60", status => {
+			fs.unlinkSync(file.path);	// Deleting the temp file. e.g: upload_3083a46a8d6a94b4db5fbb49140db2b8
+		});
     });
 
     // log any errors that occur
@@ -189,7 +186,7 @@ exports.uploadThumbnail = async (req, res) => {
     });
 
     // once all the files have been uploaded, send a response to the client
-    form.on('end', function () {
+    form.on('end', function (name, value) {
         res.end('success');
     });
 

@@ -13,6 +13,7 @@
     "morgan": "~1.9.0",
     "path": "^0.12.7",
     "serve-favicon": "~2.4.5",
-    "twig": "^1.10.5"
+    "twig": "^1.10.5",
+    "webp-converter": "^2.1.6"
   }
 }
