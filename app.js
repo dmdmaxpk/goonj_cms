@@ -3,8 +3,6 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-// const session = require('express-session');
-// const auth = require('./config/auth');
 const routes = require('./routes/index');
 const config = require('./config/config');
 
@@ -20,24 +18,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-////////////////////////SESSION///////////////////////
-// app.use(session({
-//     secret: "wdw3%Sefdgb#3rgyE!",
-//     resave: false,
-// 	saveUninitialized: false }));
-
-// app.use(auth.initialize());
-// app.use(auth.session());
-
-// app.use(function(req, res, next) {
-// 	res.locals.user = req.user;
-// 	next();
-// });
-
+// Importing Index Routes
 app.use('/', routes);
 
+// Setting Port from config file
 app.set('port', config.port);
 
+// Run server
 const server = app.listen(app.get('port'), () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });
