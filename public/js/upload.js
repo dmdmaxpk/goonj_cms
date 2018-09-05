@@ -14,7 +14,7 @@ $('#upload-input').on('change', function () {
     // wait for duration to change from NaN to the actual duration
     vid.ondurationchange = function () {
         // alert(this.duration);
-        $('#duration').val(this.duration);
+        $('#duration').val(parseInt(this.duration));
     };
     if (files.length > 0) {
         // create a FormData object which will be sent as the data payload in the

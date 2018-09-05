@@ -23,8 +23,7 @@ exports.postVideo = async (req, res) => {
 	let postData = req.body;
 	postData.topics = postData.topics.split(',');
 	postData.guests = postData.guests.split(',');
-	postData.duration = parseInt(postData.duration);	// Duration is read in float, e.g 13.24 -> 13
-	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';
+	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
 	console.log(postData);
 
 	// Post to Video Service
