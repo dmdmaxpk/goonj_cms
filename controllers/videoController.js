@@ -86,6 +86,8 @@ exports.editPost = async (req, res) => {
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
 	
+	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
+	
 	console.log("EDIT POST DATA:", postData);
 
 	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
