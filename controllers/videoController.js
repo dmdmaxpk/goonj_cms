@@ -122,6 +122,22 @@ exports.delete = async (req, res) => {
 	res.send(result);
 }
 
+exports.retranscode = async (req, res) => {
+	
+	let result = req.body;
+
+	// Adding operator name for transcoding service:
+	result.operator = 'telenor';
+
+	console.log(`Retranscode for video started: ${result._id}`);
+
+	// Posting to transcoding service:
+	axios.post(config.transcodeServiceUrl, result)
+	.then( response => console.log(response.data) )
+	.catch( error => console.log(error) );
+	
+	res.send('Re-transcoding Started!');
+}
 
 exports.uploadVideoFile = async (req, res) => {
     // create an incoming form object

@@ -24,6 +24,7 @@
                         <h2 class="page-header">
                             {{ video.title }}
                             <small class="pull-right" style="margin-top: -17px;">
+                                <button class="btn btn-rounded btn-outline-danger" onclick="retranscodeVideo()">Retranscode</button>
                                 {% if video.active %}
                                     <strong disabled class="btn bg-success margin">Active</strong>
                                 {% else %}
@@ -66,15 +67,15 @@
                 <div class="row m-t-30">
                     <div class="col-sm-4">
                         <strong>Added Date:</strong>
-                        <address>{{ video.added_dtm }}</address>
+                        <address>{{ video.added_dtm|date("H:i:s - m/d/Y") }}</address>
                     </div>
                     <div class="col-sm-4">
                         <strong>Published Time:</strong>
-                        <address>{{ video.publish_dtm }}</address>
+                        <address>{{ video.publish_dtm|date("H:i:s - m/d/Y") }}</address>
                     </div>
                     <div class="col-sm-4">
                         <strong>Last Modified:</strong>
-                        <address>{{ video.last_modified }}</address>
+                        <address>{{ video.last_modified|date("H:i:s - m/d/Y") }}</address>
                     </div>
                 </div>
                 
@@ -136,11 +137,18 @@
             player.play();
         </script>
         <script>
+            // Function for activating video
             function activateVideo(){
                 $.post( "/video/edit/{{ video._id }}", {active: true}, function( data ) {
                     console.log(data);
                     alert("Video Published!");
                     location.reload();             
+                });
+            }
+            // Function for re-transcoding video
+            function retranscodeVideo(){
+                $.post( "/video/retranscode", { _id: '{{video._id}}', file_name: '{{video.file_name}}' }, function( data ) {
+                    alert(data);      
                 });
             }
 

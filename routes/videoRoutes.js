@@ -24,6 +24,9 @@ router.get('/delete', videoController.delete);
 // Pinned Videos Page
 router.get('/pinned', videoController.pinned);
 
+// Retranscode Route
+router.post('/retranscode', videoController.retranscode);
+
 // For video file and thumb uploads
 router.post('/uploadvideofile', videoController.uploadVideoFile);
 router.post('/uploadthumbnail', videoController.uploadThumbnail);
