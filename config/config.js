@@ -5,23 +5,23 @@ let config = {
         // videoServiceUrl: 'http://localhost:3000',
         videoServiceUrl: 'http://10.3.7.101:3000',
         port: '3003',
-        transcodeServiceUrl: 'http://10.3.7.12:3011/v1/api/transcode'
+        transcodeServiceUrl: 'http://10.3.7.12:3011'
     },
     staging: {
         videoServiceUrl: 'http://localhost:3000',
         port: '3000',
-        transcodeServiceUrl: 'http://10.3.7.12:3011/v1/api/transcode'
+        transcodeServiceUrl: 'http://10.3.7.12:3011'
     },
     production: {
         videoServiceUrl: 'http://10.3.7.101:3000',
         port: '4000',
-        transcodeServiceUrl: 'http://10.3.7.12:3011/v1/api/transcode'
+        transcodeServiceUrl: 'http://10.3.7.12:3011'
     },
     // TODO: Remove this after removing old CMS/API and changing NODE_ENV to production
     productionlocal: {
         videoServiceUrl: 'http://10.3.7.101:3000',
         port: '4000',
-        transcodeServiceUrl: 'http://10.3.7.12:3011/v1/api/transcode'
+        transcodeServiceUrl: 'http://10.3.7.12:3011'
     }
 };
 

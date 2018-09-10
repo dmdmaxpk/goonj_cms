@@ -41,22 +41,19 @@
                                                 <td>{{video.title}}</td>
                                                 <td>{{video.added_dtm|date("Y-m-d H:i:s", false)}}</td>
                                                 <td>{{video.category}}</td>
-                                                {#<td>{{video.sub_category}}</td>#}
                                                 <td>{{video.feed}} </td>
                                                 <td>{{video.duration}} </td>
                                                 
-            
                                                 <td>
-                                                    {#{{ video.transcoding_status }}#}
-                                                    {% if video.transcoding_status == true%}
-                                                        <strong class="btn bg-olive margin">Done</strong>
+                                                    {% if video.transcoding_status == true %}
+                                                        <strong class="full_transcoded">100 %</strong>
                                                     {% elseif video.transcoding_status == false %}
-                                                        <strong>In Progress</strong>
+                                                        <strong class="transcode_status" data-id= {{video._id}}></strong>
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if video.active %}
-                                                        <strong class="btn bg-olive margin">Active</strong>
+                                                        <strong>Active</strong>
                                                     {% else %}
                                                         <strong>Not Active</strong>
                                                     {% endif %}
@@ -92,6 +89,16 @@
                     var url = $(this).attr("data-url");
                     $.get(url, function (data) {
                         location.reload();
+                    });
+                });
+            });
+
+            $(window).on('load', function () {
+                // Set Transcode Status
+                $('.transcode_status').each( (index, val) => {
+                    var id = $(val).data('id');
+                    $.get( "video/transcodestatus?_id="+id, function( data ) {
+                        $(val).text(data);
                     });
                 });
             });

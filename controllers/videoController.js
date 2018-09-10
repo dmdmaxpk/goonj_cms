@@ -86,7 +86,7 @@ exports.editPost = async (req, res) => {
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
 	
-	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
+	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
 	
 	console.log("EDIT POST DATA:", postData);
 
@@ -131,12 +131,23 @@ exports.retranscode = async (req, res) => {
 
 	console.log(`Retranscode for video started: ${result._id}`);
 
-	// Posting to transcoding service:
-	axios.post(config.transcodeServiceUrl, result)
+	// Posting to transcoding service for re-transcode:
+	axios.post(`${config.transcodeServiceUrl}/transcode`, result)
 	.then( response => console.log(response.data) )
 	.catch( error => console.log(error) );
+
+	// Setting transcoding status to false
+	axios.put(`${config.videoServiceUrl}/video?_id=${result._id}`, {transcoding_status: false});
 	
 	res.send('Re-transcoding Started!');
+}
+
+exports.transcodeStatus = async (req, res) => {
+	let { _id } = req.query;
+
+	let { data } = await axios.get(`${config.transcodeServiceUrl}/transcode/status?_id=${_id}`);
+	console.log(`Transcode Progress: ${data}%`);
+	res.send(`${data} %`);
 }
 
 exports.uploadVideoFile = async (req, res) => {

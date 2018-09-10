@@ -139,7 +139,7 @@
         <script>
             // Function for activating video
             function activateVideo(){
-                $.post( "/video/edit/{{ video._id }}", {active: true}, function( data ) {
+                $.post( "/video/edit/{{ video._id }}", { active: true, publish_dtm: new Date() }, function( data ) {
                     console.log(data);
                     alert("Video Published!");
                     location.reload();             
@@ -147,7 +147,7 @@
             }
             // Function for re-transcoding video
             function retranscodeVideo(){
-                $.post( "/video/retranscode", { _id: '{{video._id}}', file_name: '{{video.file_name}}' }, function( data ) {
+                $.post( "/video/retranscode", { _id: '{{video._id}}', file_name: '{{video.file_name}}', duration: {{video.duration}} }, function( data ) {
                     alert(data);      
                 });
             }

@@ -27,6 +27,9 @@ router.get('/pinned', videoController.pinned);
 // Retranscode Route
 router.post('/retranscode', videoController.retranscode);
 
+// Transcode Status
+router.get('/transcodestatus', videoController.transcodeStatus);
+
 // For video file and thumb uploads
 router.post('/uploadvideofile', videoController.uploadVideoFile);
 router.post('/uploadthumbnail', videoController.uploadThumbnail);
