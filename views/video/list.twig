@@ -67,7 +67,22 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+
+                                
+
                             </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <input type="number" id="video_limit" class="form-control" placeholder="Enter Number of videos">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="videolimit_button" type="button">Load More</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                                
                         </div>
                     </div>
                     
@@ -90,6 +105,20 @@
                     $.get(url, function (data) {
                         location.reload();
                     });
+                });
+
+                // Custom videos limit
+                $("#videolimit_button").click(function(e) {
+                    e.preventDefault();
+                        var aa = $( "#video_limit" ).val();
+                        window.open('/video?limit=' + aa, '_blank');
+                });
+                // Work on enter key
+                $("#video_limit").on('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        console.log( $(this).val());
+                        window.open('/video?limit=' +  $(this).val(), '_blank');
+                    }
                 });
             });
 
