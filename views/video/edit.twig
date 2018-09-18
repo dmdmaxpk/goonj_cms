@@ -68,7 +68,7 @@
                                     value='{{ video.source }}'
                                     data-initial-value='[{"text": "{{ video.source }}", "value" : "{{ video.source }}"}]'
                                     data-user-option-allowed="true"
-                                    data-url="/category/html_cats"
+                                    data-url="/channel/html"
                                     data-load-once="true"
                                     name="source"
                                 />
@@ -84,15 +84,6 @@
                                     data-load-once="true"
                                     name="feed"
                                 />
-                                {# <div>Feed</div>
-                                <div class="radio-buttons">
-                                    <input name="feed" value="home" type="radio" id="radio_1" checked />
-                                    <label for="radio_1">Home</label>
-                                    <input name="feed" value="cricket" type="radio" id="radio_2" />
-                                    <label for="radio_2">Cricket</label>
-                                    <input name="feed" value="comedy" type="radio" id="radio_3" />
-                                    <label for="radio_3">Comedy</label>
-                                </div> #}
                             </div>
                         </div>
                     </div>
@@ -107,21 +98,20 @@
                                         multiple
                                         class="fastSelect"
                                         value='{{ video.topics }}'
-                                        data-initial-value='{{ video.topicsHtml }}'
+                                        data-initial-value='{{ video.topicsHtml|escape }}'
                                         data-user-option-allowed="true"
                                         data-url="/topic/html"
                                         data-load-once="true"
                                         name="topics"
                                     />
-                                    <div>Programs</div>
+                                    <div>Program</div>
                                     <input  
                                         id="program"
                                         type="text"
-                                        multiple
                                         class="fastSelect"
                                         value='{{ video.program }}'
                                         {% if video.program %}
-                                        data-initial-value='[{"text": "{{ video.program }}", "value" : "{{ video.program }}"}]'
+                                        data-initial-value='[{"text": "{{ video.program|escape }}", "value" : "{{ video.program|escape }}"}]'
                                         {% else %}
                                         data-initial-value=''
                                         {% endif %}
@@ -142,7 +132,7 @@
                                         data-initial-value=''
                                         {% endif %}
                                         data-user-option-allowed="true"
-                                        data-url="http://dbrekalo.github.io/fastselect/demo/data.json"
+                                        data-url="/anchor/html"
                                         data-load-once="true"
                                         name="anchor"
                                     />
@@ -155,7 +145,7 @@
                                         value='{{ video.guests }}'
                                         data-initial-value='{{ video.guestsHtml }}'
                                         data-user-option-allowed="true"
-                                        data-url="http://dbrekalo.github.io/fastselect/demo/data.json"
+                                        data-url="/guest/html"
                                         data-load-once="true"
                                         name="guests"
                                     />
@@ -217,10 +207,6 @@
                     maxItems: 5
                 });
 
-                $('#category').fastselect({
-                    url: "http://dbrekalo.github.io/fastselect/demo/data.json"
-                });
-
                 // Dropify File Upload Initialization 
                 $('.dropify').dropify();
 
@@ -242,14 +228,14 @@
                         for(i=0; i<data.length; i++){
                             var option = document.createElement("option");
 
-                            if (subCat == data[i].title) {
-                                option.text = data[i].title;
-                                option.value = data[i].title;
+                            if (subCat == data[i].name) {
+                                option.text = data[i].name;
+                                option.value = data[i].name;
                                 option.selected = "selected";
                             }
                             else {
-                                option.text = data[i].title;
-                                option.value = data[i].title;
+                                option.text = data[i].name;
+                                option.value = data[i].name;
                             }
                             sub_category.add(option);
                         }
