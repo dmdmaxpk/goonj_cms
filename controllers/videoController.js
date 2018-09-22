@@ -21,10 +21,10 @@ exports.videoAddScreen = async (req, res) => {
 exports.postVideo = async (req, res) => {
 	
 	let postData = req.body;
-	postData.topics = postData.topics.split(',');
-	postData.guests = postData.guests.split(',');
+	postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
 	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
-	console.log(postData);
+	console.log('Video Add: ', postData);
 
 	// Post to Video Service
 	axios.post(`${config.videoServiceUrl}/video`, postData);
@@ -35,7 +35,7 @@ exports.postVideo = async (req, res) => {
 exports.view = async (req, res) => {
 
 	const { _id } = req.params;
-	console.log(`Video view: ${_id}`);
+	console.log(`Video View: ${_id}`);
 
 	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
@@ -49,7 +49,7 @@ exports.view = async (req, res) => {
 
 exports.editView = async (req, res) => {
 	const { _id } = req.params;
-	console.log(_id);
+	console.log(`Video Edit View: ${_id}`);
 
 	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
@@ -60,7 +60,7 @@ exports.editView = async (req, res) => {
 	// Checking if the Array is not empty
 	if (result.topics[0] !== '')	result.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
 	// Checking if the Array is not empty
-	if (result.guests[0]) result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el} ));
+	if (result.guests[0]) 			result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el } ));
 
 	result.topics = result.topics.toString();
 	result.topicsHtml = JSON.stringify(topicsHtml);
@@ -76,11 +76,10 @@ exports.editView = async (req, res) => {
 exports.editPost = async (req, res) => {
 
 	const { _id } = req.params;
-	console.log("Edit Post ID: ", _id);
 
 	let postData = req.body;
-	if (postData.topics) postData.topics = postData.topics.split(',');
-	if (postData.guests) postData.guests = postData.guests.split(',');
+	if (postData.topics) postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	if (postData.guests) postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
 	
 	// For updating the thumbs and filenames
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
@@ -88,7 +87,7 @@ exports.editPost = async (req, res) => {
 	
 	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
 	
-	console.log("EDIT POST DATA:", postData);
+	console.log("Video Edit Post:", postData);
 
 	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
 	console.log(result);
@@ -159,7 +158,6 @@ exports.uploadVideoFile = async (req, res) => {
     console.log("Uploading Video..");
 
 	// store all uploads in the /uploads directory
-	console.log(config.video_dir);
     form.uploadDir = config.video_dir; //path.join(__dirname, '/uploads');
     form.maxFileSize = 6000 * 1024 * 1024;	// 6GB
 	
