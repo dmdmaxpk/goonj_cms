@@ -46,16 +46,16 @@
                                                 
                                                 <td>
                                                     {% if video.transcoding_status == true %}
-                                                        <strong class="full_transcoded">100 %</strong>
+                                                        <strong style="color:green;">100 %</strong>
                                                     {% elseif video.transcoding_status == false %}
-                                                        <strong class="transcode_status" data-id= {{video._id}}></strong>
+                                                        <strong style="color:red;" data-id= {{video._id}}></strong>
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if video.active %}
-                                                        <strong>Active</strong>
+                                                        <strong style="color:green;" >Active</strong>
                                                     {% else %}
-                                                        <strong>Not Active</strong>
+                                                        <strong style="color:red;" >Not Active</strong>
                                                     {% endif %}
                                                 </td>
                                                 <td class="text-nowrap">
@@ -67,8 +67,6 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-
-                                
 
                             </div>
 
