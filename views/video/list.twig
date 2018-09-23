@@ -48,14 +48,14 @@
                                                     {% if video.transcoding_status == true %}
                                                         <strong style="color:green;">100 %</strong>
                                                     {% elseif video.transcoding_status == false %}
-                                                        <strong style="color:red;" data-id= {{video._id}}></strong>
+                                                        <strong style="color:red;" class="transcode_status" data-id= {{video._id}}></strong>
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if video.active %}
-                                                        <strong style="color:green;" >Active</strong>
+                                                        <strong style="color:green;">Published</strong>
                                                     {% else %}
-                                                        <strong style="color:red;" >Not Active</strong>
+                                                        <strong style="color:red;">Pending</strong>
                                                     {% endif %}
                                                 </td>
                                                 <td class="text-nowrap">
