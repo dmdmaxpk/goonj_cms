@@ -13,8 +13,8 @@ exports.add = async (req, res) => {
 
 	let postData = req.body;
 
-	if (postData.valid == 'on') postData.valid = true;
-	else postData.valid = false;
+	if (postData.active == 'on') postData.active = true;
+	else postData.active = false;
 
 	console.log(postData);
 	let resp = await axios.post(`${config.videoServiceUrl}/channel`, postData);
