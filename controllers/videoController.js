@@ -21,10 +21,10 @@ exports.videoAddScreen = async (req, res) => {
 exports.postVideo = async (req, res) => {
 	
 	let postData = req.body;
-	postData.topics 	= postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
-	postData.guests 	= postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
-	postData.thumbnail 	= postData.thumbnail.split('.')[0] + '.webp';				// Adding webp extension
-	postData.file_name 	= postData.file_name.replace(/ /g,"-");						// Replacing spaces with -
+	postData.topics 	= postData.topics.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
+	postData.guests 	= postData.guests.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
+	postData.thumbnail 	= postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and Adding webp extension
+	postData.file_name 	= postData.file_name.replace(/ /g,"-");							// Replacing spaces with -
 	console.log('Video Add: ', postData);
 
 	// Post to Video Service
@@ -86,8 +86,8 @@ exports.editPost = async (req, res) => {
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
 	
-	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
-	if (postData.file_name) postData.file_name 	= postData.file_name.replace(/ /g,"-");			// Replacing spaces with -
+	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and Adding webp extension
+	if (postData.file_name) postData.file_name 	= postData.file_name.replace(/ /g,"-");							// Replacing spaces with -
 
 	console.log("Video Edit Post:", postData);
 
@@ -188,7 +188,7 @@ exports.uploadThumbnail = async (req, res) => {
 
     // rename thumbnail to its orignal name
     form.on('file', function (field, file) {
-		let short_thumbnail = file.name.split('.')[0];	// Without extension
+		let short_thumbnail = file.name.split('.')[0].replace(/ /g,"-");	// Without extension
 
 		// Converting temp file into webp and moving it in /compressed folder
 		webp.cwebp(`${file.path}`,`${form.uploadDir}/compressed/${short_thumbnail}.webp`,"-q 60", status => {
