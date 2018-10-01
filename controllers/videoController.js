@@ -21,9 +21,10 @@ exports.videoAddScreen = async (req, res) => {
 exports.postVideo = async (req, res) => {
 	
 	let postData = req.body;
-	postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
-	postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
-	postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
+	postData.topics 	= postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	postData.guests 	= postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	postData.thumbnail 	= postData.thumbnail.split('.')[0] + '.webp';				// Adding webp extension
+	postData.file_name 	= postData.file_name.replace(/ /g,"-");						// Replacing spaces with -
 	console.log('Video Add: ', postData);
 
 	// Post to Video Service
@@ -60,7 +61,7 @@ exports.editView = async (req, res) => {
 	// Checking if the Array is not empty
 	if (result.topics[0] !== '')	result.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
 	// Checking if the Array is not empty
-	if (result.guests[0]) 			result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el } ));
+	if (result.guests[0] !== '') 	result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el } ));
 
 	result.topics = result.topics.toString();
 	result.topicsHtml = JSON.stringify(topicsHtml);
@@ -86,7 +87,8 @@ exports.editPost = async (req, res) => {
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
 	
 	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0] + '.webp';	// Adding webp extension
-	
+	if (postData.file_name) postData.file_name 	= postData.file_name.replace(/ /g,"-");			// Replacing spaces with -
+
 	console.log("Video Edit Post:", postData);
 
 	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
@@ -153,33 +155,21 @@ exports.uploadVideoFile = async (req, res) => {
     // create an incoming form object
     var form = new formidable.IncomingForm();
 
-    // specify that we want to allow the user to upload multiple files in a single request
-    form.multiples = true;
     console.log("Uploading Video..");
 
-	// store all uploads in the /uploads directory
-    form.uploadDir = config.video_dir; //path.join(__dirname, '/uploads');
+    form.uploadDir = config.video_dir; 		// Setting upload dir for video files
     form.maxFileSize = 6000 * 1024 * 1024;	// 6GB
 	
-    // every time a file has been uploaded successfully,
-    // rename it to it's orignal name
+    // when the file uploads it sets a random temp name e.g upload_3083a46a8d6a94b4db5fbb49140db2b8, rename it to the orignal file name
     form.on('file', function (field, file) {
-		var filename = file.name;
-        // var dateTime = new Date().getTime();
-        // var timestamp = Math.floor(dateTime / 1000);
-		// filename = filename.split('.')[0] + "_" + ts.split('.')[0] + "." + filename.split('.')[1];
-		fs.renameSync(file.path, path.join(form.uploadDir, file.name));
+		fs.renameSync(file.path, path.join(form.uploadDir, file.name.replace(/ /g,"-") ));
     });
 
-    // log any errors that occur
-    form.on('error', function (err) {
-        console.log('An error has occured: \n' + err);
-    });
+    // log errors
+    form.on('error', err => { console.log('An error has occured: \n' + err) });
 
     // once all the files have been uploaded, send a response to the client
-    form.on('end', function () {
-        res.end('success');
-    });
+    form.on('end', () => { res.end('success') });
 
     // parse the incoming request containing the form data
     form.parse(req);
@@ -193,8 +183,8 @@ exports.uploadThumbnail = async (req, res) => {
 
     console.log("Uploading Thumb..");
 
-    form.uploadDir = config.thumb_dir;
-    form.maxFileSize = 20 * 1024 * 1024;	// 20MB
+    form.uploadDir = config.thumb_dir;		// Setting upload dir for video files
+    form.maxFileSize = 20 * 1024 * 1024;	// 20MB size limit
 
     // rename thumbnail to its orignal name
     form.on('file', function (field, file) {
@@ -206,15 +196,11 @@ exports.uploadThumbnail = async (req, res) => {
 		});
     });
 
-    // log any errors that occur
-    form.on('error', function (err) {
-        console.log('An error has occured: \n' + err);
-    });
+    // log errors
+    form.on('error', err => { console.log('An error has occured: \n' + err) });
 
     // once all the files have been uploaded, send a response to the client
-    form.on('end', function (name, value) {
-        res.end('success');
-    });
+    form.on('end', () => { res.end('success') });
 
     // parse the incoming request containing the form data
     form.parse(req);
