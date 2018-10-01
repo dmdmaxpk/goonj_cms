@@ -200,7 +200,8 @@
                     ]
                 });
 
-                var markupStr = '{{video.description}}';
+                {# var markupStr = '{{ video.description|replace({"'": "\'"}) }}'; #}
+                var markupStr = `{{video.description}}`;
                 $('#summernote').summernote('code', markupStr);
                 // FastSelect Initialization 
                 $('.fastSelect').fastselect({
