@@ -32,6 +32,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Streaming Link</th>
+                                        <th>Slug</th>
                                         <th>Sequence</th>
                                         <th>Active</th>
                                         <th>Options</th>
@@ -42,6 +43,7 @@
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ channel._id }}' data-name="name" data-send="always" data-url='/channel/editable' data-placeholder="Required" data-value='{{ channel.name }}'></a></td>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ channel._id }}' data-name="hls_link" data-send="always" data-url='/channel/editable' data-value='{{ channel.hls_link }}'></a></td>
+                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ channel._id }}' data-name="slug" data-send="always" data-url='/channel/editable' data-value='{{ channel.slug }}'></a></td>
                                             <td><a href="#" class="editable" data-type="number" data-pk='{{ channel._id }}' data-name="seq" data-send="always" data-url='/channel/editable' data-value='{{ channel.seq }}'></a></td>
                                             <td><input type="checkbox" data-id='{{ channel._id }}' class="checkbox" {% if channel.active == true %} checked {% endif %}></td>
                                             <td class="text-nowrap">
@@ -67,6 +69,7 @@
                                         <input name='description' type="text" class="form-control" placeholder="Description">
                                         <input name='category' type="text" class="form-control" placeholder="Category">
                                         <input name='hls_link' type="text" class="form-control" placeholder="hls_link">
+                                        <input name='slug' type="text" class="form-control" placeholder="Slug">
                                         <input name='seq' type="number" class="form-control" placeholder="Sequence">
                                         <label>Active</label>
                                         <input id="chk" name='active' type="checkbox" class="form-control">
