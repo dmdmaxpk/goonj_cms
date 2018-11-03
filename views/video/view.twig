@@ -90,17 +90,17 @@
                         <strong>Category:</strong>
                         <address>{{ video.category }}</address>
                     </div>
-                    <div class="col-sm-4">
+                    {# <div class="col-sm-4">
                         <strong>Subcategory:</strong>
                         <address>{{ video.sub_category }}</address>
-                    </div>
-                </div>
-                
-                <div class="row">
+                    </div> #}
                     <div class="col-sm-4">
                         <strong>Program:</strong>
                         <address>{{ video.program }}</address>
                     </div>
+                </div>
+                
+                <div class="row">
                     <div class="col-sm-4">
                         <strong>Topics:</strong>
                         <address>{{ video.topics }}</address>
@@ -109,14 +109,14 @@
                         <strong>Anchor:</strong>
                         <address>{{ video.anchor }}</address>
                     </div>
-                
-                </div>
-                
-                <div class="row">
                     <div class="col-sm-4">
                         <strong>Guests:</strong>
                         <address>{{ video.guests }}</address>
                     </div>
+                </div>
+                
+                <div class="row">
+                    
                     <div class="col-sm-8">
                         <strong>URL:</strong>
                         <address id="link" class="link">{{ video._id }}_{{ video.slug }}</address>
@@ -154,6 +154,7 @@
                 });
             }
 
+            // Copying slug to clipboard for WP
             function copyToClipboard(element) {
                 var $temp = $("<input>");
                 $("body").append($temp);

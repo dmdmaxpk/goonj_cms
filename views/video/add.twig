@@ -56,8 +56,9 @@
                                     data-load-once="true"
                                     name="category"
                                 />
-                                <select id="sub_category" class="form-control" name="sub_category" style="height: 300px;" multiple>
-                                </select>
+                                {# SUB CATS CAN BE USED IN FUTURE #}
+                                {# <select id="sub_category" class="form-control" name="sub_category" style="height: 300px;" multiple>
+                                </select> #}
                             </div>
                             <div class="col-6">
                                 <div>Source</div>
@@ -81,16 +82,6 @@
                                     data-load-once="true"
                                     name="feed"
                                 />
-                                
-                                {# <div>Feed</div>
-                                <div class="radio-buttons">
-                                    <input name="feed" value="home" type="radio" id="radio_1" checked />
-                                    <label for="radio_1">Home</label>
-                                    <input name="feed" value="cricket" type="radio" id="radio_2" />
-                                    <label for="radio_2">Cricket</label>
-                                    <input name="feed" value="comedy" type="radio" id="radio_3" />
-                                    <label for="radio_3">Comedy</label>
-                                </div> #}
                             </div>
                         </div>
                     </div>
@@ -194,13 +185,14 @@
                 
                 $('.dropify').dropify();
 
-                function removeOptions(selectbox) {
+                {# SUB CATS CAN BE USED IN FUTURE #}
+                {# function removeOptions(selectbox) {
                     var i;
                     for (i = selectbox.options.length - 1; i >= 0; i--) {
                         selectbox.remove(i);
                     }
                 }
-
+                
                 function loadSubcategory(val) {
                     removeOptions(sub_category);
                     $.get("/category/html_subcats?cat_name=" + val, function (data) {
@@ -215,7 +207,7 @@
 
                 $("#category").change(function () {
                     loadSubcategory($(this).val());
-                });
+                }); #}
             });
         </script>
     {% endblock %}       

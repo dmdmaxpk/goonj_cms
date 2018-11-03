@@ -36,7 +36,7 @@
                                             <td>{{category.description}}</td>
                                             <td>{{category.added_dtm|date("Y-m-d H:i:s", false)}}</td>
                                             <td class="text-nowrap">
-                                                <a href="/category/view/{{ category._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                                {# <a href="/category/view/{{ category._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a> #}
                                                 {# <a href="/category/edit/{{ category._id }}" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> #}
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/category/delete?cat_id={{category._id}}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
