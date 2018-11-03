@@ -30,6 +30,7 @@
                                             <th>Category</th>
                                             <th>Feed</th>
                                             <th>Duration</th>
+                                            <th>File Name</th>
                                             <th>Transcoding</th>
                                             <th>Status</th>
                                             <th>Options</th>
@@ -41,8 +42,9 @@
                                                 <td>{{video.title}}</td>
                                                 <td>{{video.added_dtm|date("Y-m-d H:i:s", false)}}</td>
                                                 <td>{{video.category}}</td>
-                                                <td>{{video.feed}} </td>
-                                                <td>{{video.duration}} </td>
+                                                <td>{{video.feed}}</td>
+                                                <td>{{video.duration}}</td>
+                                                <td>{{video.file_name}}</td>
                                                 
                                                 <td>
                                                     {% if video.transcoding_status == true %}
