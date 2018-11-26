@@ -21,6 +21,7 @@ exports.videoAddScreen = async (req, res) => {
 exports.postVideo = async (req, res) => {
 	
 	let postData = req.body;
+	postData.title		= postData.title.trim();
 	postData.topics 	= postData.topics.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
 	postData.guests 	= postData.guests.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
 	postData.thumbnail 	= postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and Adding webp extension
