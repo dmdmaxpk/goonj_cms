@@ -16,12 +16,6 @@ let config = {
         videoServiceUrl: 'http://10.3.7.101:3000',
         port: '4000',
         transcodeServiceUrl: 'http://10.3.7.12:3011'
-    },
-    // TODO: Remove this after removing old CMS/API and changing NODE_ENV to production
-    productionlocal: {
-        videoServiceUrl: 'http://10.3.7.101:3000',
-        port: '4000',
-        transcodeServiceUrl: 'http://10.3.7.12:3011'
     }
 };
 
@@ -30,8 +24,6 @@ console.log("---", env);
 if (env === 'development')  config = config.development;
 if (env === 'staging')      config = config.staging;
 if (env === 'production')   config = config.production;
-// TODO: Same removal
-if (env === 'productionlocal')   config = config.productionlocal;
 
 // Common configs
 // Dir for Videos Upload
