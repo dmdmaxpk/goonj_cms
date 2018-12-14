@@ -1,7 +1,6 @@
 {% extends 'layout.twig' %}
 
     {% block head %}
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet">
         <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
         <style>
             .fstToggleBtn {
@@ -34,8 +33,6 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Weightage</th>
                                         <th>Added Date</th>
                                         <th>Options</th>
                                     </tr>
@@ -44,20 +41,6 @@
                                     {% for topic in list %}
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ topic._id }}' data-name="name" data-send="always" data-url='/topic/editable' data-value='{{ topic.name }}'></a></td>
-                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ topic._id }}' data-name="description" data-send="always" data-url='/topic/editable' data-value='{{ topic.description }}'></a></td>
-                                            <td>
-                                                <input  
-                                                    type="text"
-                                                    class="fastSelect weightage"
-                                                    value='{{ topic.weightage }}'
-                                                    data-id={{ topic._id }}
-                                                    data-initial-value='[{"text": "{{ topic.weightage }}", "value" : "{{ topic.weightage }}"}]'
-                                                    {# data-user-option-allowed="true" #}
-                                                    data-url="/topic/weightage"
-                                                    data-load-once="true"
-                                                    name="weightage"
-                                                />
-                                            </td>
                                             <td>{{ topic.added_dtm|date("Y-m-d H:i:s", false) }}</td>
                                             <td class="text-nowrap">
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/topic/delete?_id={{ topic._id }}"> <i class="fa fa-close text-danger"></i> </a>
@@ -80,19 +63,6 @@
                                 <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
                                 </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
-                                </div>
-                                <div class="col-6">
-                                    <h5>Weightage</h5>
-                                    <input  
-                                        type="text"
-                                        class="fastSelect"
-                                        data-url="/topic/weightage"
-                                        data-load-once="true"
-                                        name="weightage"
-                                    />
-                                </div>
                                 <div class="col-12">
                                     <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Topic</button>
                                 </div>
@@ -103,7 +73,6 @@
          </div>
     {% endblock %}
     {% block foot %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script src="/js/bootstrap-editable.min.js"></script>
         <script>
@@ -130,9 +99,6 @@
                 $.fn.editable.defaults.mode = 'inline';     
                 $('.editable').editable();
 
-                // Initialize FastSelect for input
-                $('.fastSelect').fastselect();
-
                 // Delete
                 $(".delete").click(function () {
                     var url = $(this).attr("data-url");
@@ -151,10 +117,9 @@
                     });
                 });
 
-                // Initialize editable and fastSelect on pagination
+                // Initialize editable on pagination
                 $(".dataTables_paginate").click(function() {
                     $('.editable').editable();
-                    $('.fastSelect').fastselect();
 
                     // Delete
                     $(".delete").click(function () {

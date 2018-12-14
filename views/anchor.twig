@@ -1,7 +1,6 @@
 {% extends 'layout.twig' %}
 
     {% block head %}
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
         <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
         <style>
@@ -37,7 +36,6 @@
                                         <th>Name</th>
                                         <th>Biodata</th>
                                         <th>Avatar</th>
-                                        <th>Weightage</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -47,18 +45,6 @@
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="name" data-send="always" data-url='/anchor/editable' data-placeholder="Required" data-value='{{ anchor.name }}'></a></td>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="biodata" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.biodata }}'></a></td>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="avatar" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.avatar }}'></a></td>
-                                            <td>
-                                                <input  
-                                                    type="text"
-                                                    class="fastSelect weightage"
-                                                    value='{{ anchor.weightage }}'
-                                                    data-id={{ anchor._id }}
-                                                    data-initial-value='[{"text": "{{ anchor.weightage }}", "value" : "{{ anchor.weightage }}"}]'
-                                                    data-url="/anchor/weightage"
-                                                    data-load-once="true"
-                                                    name="weightage"
-                                                />
-                                            </td>
                                             <td class="text-nowrap">
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/anchor/delete?_id={{anchor._id}}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
@@ -86,16 +72,6 @@
                                 <div class="col-6">
                                     <input id="upload-input" class="dropify" type="file" name="avatar"></br>
                                 </div>
-                                <div class="col-6">
-                                    <h5>Weightage</h5>
-                                    <input  
-                                        type="text"
-                                        class="fastSelect"
-                                        data-url="/anchor/weightage"
-                                        data-load-once="true"
-                                        name="weightage"
-                                    />
-                                </div>
                                 <div class="col-12">
                                     <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Tag</button>
                                 </div>
@@ -107,7 +83,6 @@
     {% endblock %}
     {% block foot %}
     
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
         <script src="/js/bootstrap-editable.min.js"></script>
@@ -128,7 +103,7 @@
                             "orderDataType": "dom-input",
                             "targets": 0, // Just the first column
                         }
-                    ]
+                    ]    
                 });
     
                 // Initialize Editable
@@ -137,9 +112,6 @@
 
                 // Initialize Dropfiy Fileupload
                 $('.dropify').dropify();
-                
-                // Initialize FastSelect for input
-                $('.fastSelect').fastselect();
 
                 // Delete
                 $(".delete").click(function () {
@@ -160,11 +132,10 @@
                     });
                 });
                 
-                // Initialize editable and fastSelect on pagination
+                // Initialize editable on pagination
                 $(".dataTables_paginate").click(function() {
                     console.log( "Handler for .click() called." );
                     $('.editable').editable();
-                    $('.fastSelect').fastselect();
 
                     // Delete
                     $(".delete").click(function () {
