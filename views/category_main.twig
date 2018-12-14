@@ -75,7 +75,8 @@
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable({
-                    "order": [[ 1, "desc" ]]
+                    "order": [[ 1, "desc" ]],
+                    "iDisplayLength": 25
                 });
                 $(".delete").click(function () {
                     var url = $(this).attr("data-url");
