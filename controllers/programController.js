@@ -12,6 +12,7 @@ exports.get = async (req, res) => {
 exports.add = async (req, res) => {
 
 	let postData = req.body;
+	postData.name = postData.name.trim();
 	console.log(postData);
 
 	let resp = await axios.post(`${config.videoServiceUrl}/program`, postData);
