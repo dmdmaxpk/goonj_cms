@@ -1,6 +1,7 @@
 {% extends 'layout.twig' %}
 
     {% block head %}
+        {# <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet"> #}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
         <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
         <style>
@@ -34,8 +35,9 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Biodata</th>
-                                        <th>Avatar</th>
+                                        {# <th>Biodata</th> #}
+                                        {# <th>Avatar</th> #}
+                                        <th>Weightage</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -43,8 +45,9 @@
                                     {% for anchor in list %}
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="name" data-send="always" data-url='/anchor/editable' data-placeholder="Required" data-value='{{ anchor.name }}'></a></td>
-                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="biodata" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.biodata }}'></a></td>
-                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="avatar" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.avatar }}'></a></td>
+                                            {# <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="biodata" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.biodata }}'></a></td> #}
+                                            {# <td><a href="#" class="editable" data-type="text" data-pk='{{ anchor._id }}' data-name="avatar" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.avatar }}'></a></td> #}
+                                            <td><a href="#" class="editable" data-type="number" data-pk='{{ anchor._id }}' data-name="weightage" data-send="always" data-url='/anchor/editable' data-value='{{ anchor.weightage }}'></a></td>
                                             <td class="text-nowrap">
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/anchor/delete?_id={{anchor._id}}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
@@ -60,20 +63,23 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-body">
-                        <h2>Add Tag</h2>
+                        <h2>Add Anchor</h2>
                         <form method="post" action="/anchor/add">
                             <div class="row">
                                 <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
                                 </div>
-                                <div class="col-6">
+                                {# <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="biodata" placeholder="Biodata">
                                 </div>
                                 <div class="col-6">
                                     <input id="upload-input" class="dropify" type="file" name="avatar"></br>
+                                </div> #}
+                                <div class="col-6">
+                                    <input type="number" class="form-control" id="title" name="weightage" placeholder="Weightage">
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Tag</button>
+                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Anchor</button>
                                 </div>
                             </div>
                         </form>
@@ -83,13 +89,15 @@
     {% endblock %}
     {% block foot %}
     
+        {# <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script> #}
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        {# For thumbnails drag and drop #}
+        {# <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script> #}
         <script src="/js/bootstrap-editable.min.js"></script>
         <script>
             $(document).ready(function() {
 
-                 // For sorting Weightage
+                 // For sorting Weightage (not working)
                 $.fn.dataTable.ext.order['dom-input'] = function (settings, col) {
                     return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
                         return $('input', td).val();
@@ -104,7 +112,7 @@
                             "targets": 0, // Just the first column
                         }
                     ],
-                   "iDisplayLength": 25     
+                    "iDisplayLength": 50  
                 });
     
                 // Initialize Editable
@@ -122,18 +130,8 @@
                         location.reload();
                     });
                 });
-
-                // Post call when weightage change
-                $(".weightage").change(function () {
-                    let _id = $(this).attr('data-id');
-                    let weightage = $(this).val();
-                    console.log(_id, weightage);
-                    $.post( "/anchor/update?_id=" + _id ,  { weightage }, function( data ) {
-                        alert(data);
-                    });
-                });
                 
-                // Initialize editable on pagination
+                // Initialize editable and fastSelect on pagination
                 $(".dataTables_paginate").click(function() {
                     console.log( "Handler for .click() called." );
                     $('.editable').editable();
@@ -147,15 +145,6 @@
                         });
                     });
 
-                    // Post call when weightage change
-                    $(".weightage").change(function () {
-                        let _id = $(this).attr('data-id');
-                        let weightage = $(this).val();
-                        console.log(_id, weightage);
-                        $.post( "/anchor/update?_id=" + _id ,  { weightage }, function( data ) {
-                            alert(data);
-                        });
-                    });
                 });
 
             });
