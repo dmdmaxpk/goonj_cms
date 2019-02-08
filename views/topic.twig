@@ -34,6 +34,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Added Date</th>
+                                        <th>Weightage</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -42,6 +43,7 @@
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ topic._id }}' data-name="name" data-send="always" data-url='/topic/editable' data-value='{{ topic.name }}'></a></td>
                                             <td>{{ topic.added_dtm|date("Y-m-d H:i:s", false) }}</td>
+                                            <td><a href="#" class="editable" data-type="number" data-pk='{{ topic._id }}' data-name="weightage" data-send="always" data-url='/topic/editable' data-value='{{ topic.weightage }}'></a></td>
                                             <td class="text-nowrap">
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/topic/delete?_id={{ topic._id }}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
@@ -62,6 +64,9 @@
                             <div class="row">
                                 <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" class="form-control" id="title" name="weightage" placeholder="Weightage">
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Topic</button>
@@ -93,7 +98,7 @@
                             "targets": 0, // Just the first column
                         }
                     ],
-                   "iDisplayLength": 25     
+                   "iDisplayLength": 50     
                 });
                 
                 // Initialize Editable
@@ -105,16 +110,6 @@
                     var url = $(this).attr("data-url");
                     $.get(url, function (data) {
                         location.reload();
-                    });
-                });
-
-                // Post call when weightage change
-                $(".weightage").change(function () {
-                    let _id = $(this).attr('data-id');
-                    let weightage = $(this).val();
-                    console.log(_id, weightage);
-                    $.post( "/topic/update?_id=" + _id ,  { weightage }, function( data ) {
-                        alert(data);
                     });
                 });
 
@@ -130,15 +125,6 @@
                         });
                     });
 
-                    // Post call when weightage change
-                    $(".weightage").change(function () {
-                        let _id = $(this).attr('data-id');
-                        let weightage = $(this).val();
-                        console.log(_id, weightage);
-                        $.post( "/topic/update?_id=" + _id ,  { weightage }, function( data ) {
-                            alert(data);
-                        });
-                    });
                 });
             });
         </script>
