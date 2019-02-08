@@ -25,8 +25,9 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
+                                        {# <th>Description</th> #}
                                         <th>Added Date</th>
+                                        <th>Weightage</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
@@ -34,8 +35,9 @@
                                     {% for program in list %}
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="name" data-send="always" data-url='/program/editable' data-value='{{ program.name }}'></a></td>
-                                            <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="description" data-send="always" data-url='/program/editable' data-value='{{ program.description }}'></a></td>
+                                            {# <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="description" data-send="always" data-url='/program/editable' data-value='{{ program.description }}'></a></td> #}
                                             <td>{{program.added_dtm|date("Y-m-d H:i:s", false)}}</td>
+                                            <td><a href="#" class="editable" data-type="number" data-pk='{{ program._id }}' data-name="weightage" data-send="always" data-url='/program/editable' data-value='{{ program.weightage }}'></a></td>
                                             <td class="text-nowrap">
                                                 <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/program/delete?_id={{ program._id }}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
@@ -58,8 +60,11 @@
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
+                                    <input type="number" class="form-control" id="title" name="weightage" placeholder="Weightage">
                                 </div>
+                                {# <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
+                                </div> #}
                                 <div class="col-12">
                                     <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Program</button>
                                 </div>
@@ -78,7 +83,7 @@
                 // Initialize Datatable
                 $('#myTable').DataTable({
                     "order": [[ 0, "desc" ]],
-                    "iDisplayLength": 25
+                    "iDisplayLength": 50
                 });
 
                 // Initialize Editable
