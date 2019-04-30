@@ -2,7 +2,7 @@ const axios = require('axios');
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
-const webp=require('webp-converter');
+const webp = require('webp-converter');
 const config = require('../config/config');
 
 exports.getAllVideos = async (req, res) => {
@@ -95,10 +95,6 @@ exports.editPost = async (req, res) => {
 	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
 	console.log(result);
 
-	// Send to Recommendation Service
-	// if (postData.active = true) {
-	// 	axios.post()
-	// }
 	res.redirect('/video');
 }
 
@@ -135,8 +131,8 @@ exports.retranscode = async (req, res) => {
 
 	// Posting to transcoding service for re-transcode:
 	axios.post(`${config.transcodeServiceUrl}/transcode`, result)
-	.then( response => console.log(response.data) )
-	.catch( error => console.log(error) );
+		.then( response => console.log(response.data) )
+		.catch( error => console.log(error) );
 
 	// Setting transcoding status to false
 	axios.put(`${config.videoServiceUrl}/video?_id=${result._id}`, {transcoding_status: false});
@@ -162,7 +158,7 @@ exports.uploadVideoFile = async (req, res) => {
     form.maxFileSize = 6000 * 1024 * 1024;	// 6GB
 	
     // when the file uploads it sets a random temp name e.g upload_3083a46a8d6a94b4db5fbb49140db2b8, rename it to the orignal file name
-    form.on('file', function (field, file) {
+    form.on('file', (field, file) => {
 		fs.renameSync(file.path, path.join(form.uploadDir, file.name.replace(/ /g,"-") ));
     });
 
