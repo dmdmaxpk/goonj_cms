@@ -24,7 +24,6 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
                                         <th>Added Date</th>
                                         <th>Options</th>
                                     </tr>
@@ -33,7 +32,6 @@
                                     {% for category in categoryList %}
                                         <tr>
                                             <td>{{category.name}}</td>
-                                            <td>{{category.description}}</td>
                                             <td>{{category.added_dtm|date("Y-m-d H:i:s", false)}}</td>
                                             <td class="text-nowrap">
                                                 {# <a href="/category/view/{{ category._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a> #}
@@ -55,11 +53,8 @@
                         <h2>Add Category</h2>
                         <form method="post" action="/category/add_cat">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
-                                </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control" id="title" name="description" placeholder="Description">
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add Cateogory</button>
