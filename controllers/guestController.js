@@ -1,3 +1,4 @@
+// NOTE: Guests are removed from app after revamp, can be used in future if required.
 const axios = require('axios');
 const config = require('../config/config');
 

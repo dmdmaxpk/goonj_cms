@@ -1,3 +1,4 @@
+// NOTE: Guests are removed from app after revamp, can be used in future if required.
 const express = require('express');
 const router = express.Router();
 const guestController = require('../controllers/guestController')

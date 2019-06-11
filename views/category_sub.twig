@@ -78,7 +78,7 @@
                     "order": [[ 1, "desc" ]]
                 });
                 $(".delete").click(function () {
-                    var url = $(this).attr("data-url");
+                    let url = $(this).attr("data-url");
                     $.get(url, function (data) {
                         location.reload();
                     });

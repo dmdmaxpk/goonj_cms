@@ -56,7 +56,7 @@
                                     data-load-once="true"
                                     name="category"
                                 />
-                                {# SUB CATS CAN BE USED IN FUTURE #}
+                                {# REMOVED, SUB CATS CAN BE USED IN FUTURE #}
                                 {# <select id="sub_category" class="form-control" name="sub_category" style="height: 300px;" multiple>
                                 </select> #}
                             </div>
@@ -110,7 +110,8 @@
                                         data-load-once="true"
                                         name="anchor"
                                     />
-                                    <div>Guests</div>
+                                    {# REMOVED, can be used in future #}
+                                    {# <div>Guests</div>
                                     <input  
                                         id="guests"
                                         type="text"
@@ -120,7 +121,7 @@
                                         data-url="/guest/html"
                                         data-load-once="true"
                                         name="guests"
-                                    />
+                                    /> #}
                                     <label for="input-file-now">Video</label>
                                     <div class="progress-bar" id="progress-bar"></div>
                                     <input id="upload-input" class="dropify" type="file" name="file_name"></br>
@@ -178,7 +179,7 @@
                 // <<<---------------Sub-Category---------------
                 {# SUB CATS CAN BE USED IN FUTURE #}
                 {# function removeOptions(selectbox) {
-                    var i;
+                    let i;
                     for (i = selectbox.options.length - 1; i >= 0; i--) {
                         selectbox.remove(i);
                     }
@@ -188,7 +189,7 @@
                     removeOptions(sub_category);
                     $.get("/category/html_subcats?cat_name=" + val, function (data) {
                         for (i = 0; i < data.length; i++) {
-                            var option = document.createElement("option");
+                            let option = document.createElement("option");
                             option.text = data[i].name;
                             option.value = data[i].name;
                             sub_category.add(option);

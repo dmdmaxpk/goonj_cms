@@ -1,12 +1,12 @@
 {
-  "name": "telenor-cms",
+  "name": "goonj-cms",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "nodemonConfig": {
-    "ext": "twig"
+    "ext": "twig js"
   },
   "dependencies": {
     "axios": "^0.17.1",

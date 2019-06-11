@@ -5,7 +5,7 @@ const videoController = require('../controllers/videoController')
 // Videos List
 router.get('/', videoController.getAllVideos);
 
-// Add
+// Add Get and Post
 router.route('/add')
     .get(videoController.videoAddScreen)
     .post(videoController.postVideo);
@@ -13,7 +13,7 @@ router.route('/add')
 // View
 router.get('/view/:_id', videoController.view);
 
-// Edit
+// Edit Get and Post
 router.route('/edit/:_id')
     .get(videoController.editView)
     .post(videoController.editPost);

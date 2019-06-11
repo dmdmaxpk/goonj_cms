@@ -29,7 +29,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for category in categoryList %}
+                                    {% for category in data %}
                                         <tr>
                                             <td>{{category.name}}</td>
                                             <td>{{category.added_dtm|date("Y-m-d H:i:s", false)}}</td>
@@ -74,7 +74,7 @@
                     "iDisplayLength": 25
                 });
                 $(".delete").click(function () {
-                    var url = $(this).attr("data-url");
+                    let url = $(this).attr("data-url");
                     $.get(url, function (data) {
                         location.reload();
                     });

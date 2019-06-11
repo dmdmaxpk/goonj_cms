@@ -1,93 +1,88 @@
 const axios = require('axios');
 const config = require('../config/config');
 
+// Main homepage
 exports.get = async (req, res) => {
 	
-	let resp = await axios.get(`${config.videoServiceUrl}/topic`);
-	let list = resp.data;
-
-	res.render('topic', {title: 'Video', list});
+	try {
+		// GET: Video Service
+		let {data} = await axios.get(`${config.videoServiceUrl}/topic`);
+		res.render('topic', {title: 'Topics', data});
+	} 
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-exports.add = async (req, res) => {
+// POST function
+exports.post = async (req, res) => {
 
 	let postData = req.body;
 	console.log(postData);
 
-	let resp = await axios.post(`${config.videoServiceUrl}/topic`, postData);
-	resp = resp.data;
-	console.log(resp);
-	
-	res.redirect('/topic');
+	try {
+		// POST: Video Service
+		let {data} = await axios.post(`${config.videoServiceUrl}/topic`, postData);
+		console.log(data);
+		res.redirect('/topic');
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}	
 }
 
-exports.update = async (req, res) => {
-
-	let { _id } = req.query;
-	let postData = req.body;
-	console.log(postData);
-
-	let resp = await axios.put(`${config.videoServiceUrl}/topic?_id=${_id}`, postData);
-	resp = resp.data;
-	console.log(resp);
-	
-	res.send("Updated!");
-}
-
+// In-line edit
 exports.editable = async (req, res) => {
 
 	const postData = req.body;
 	console.log(postData);
 
 	const { name, value, pk } = postData;
-	console.log(name, value, pk);
 
-	let resp = await axios.put(`${config.videoServiceUrl}/topic?_id=${pk}`, {[name]: value});
-	resp = resp.data;
-	console.log(resp);
-	
-	res.send("Updated!");
+	try {
+		// PUT: Video Service
+		let {data} = await axios.put(`${config.videoServiceUrl}/topic?_id=${pk}`, {[name]: value});
+		console.log(data);
+		res.send(data);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-
+// DELETE function
 exports.delete = async (req, res) => {
 
 	const { _id } = req.query;
-	let resp = await axios.delete(`${config.videoServiceUrl}/topic?_id=${_id}`);
-	res.send('Deleted!');
+
+	try {
+		// DELETE: Video Service
+		let {data} = await axios.delete(`${config.videoServiceUrl}/topic?_id=${_id}`);
+		res.send(data);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-// API CALLS -----------------------------------
+// For fastSelect HTML, which is used on video page
 exports.html = async (req, res) => {
 
-    let resp = await axios.get(`${config.videoServiceUrl}/topic`);
-	resp = resp.data;
-    // console.log(resp);
-    
-    let html = [];
-    resp.forEach(el => html.push( {"text": el.name, "value": el.name} ));
-    // console.log(catsHtml);
-    res.send(html);
+	try {
+		let html = [];
+		// GET: Video Service
+		let {data} = await axios.get(`${config.videoServiceUrl}/topic`);
+		
+		data.forEach(el => html.push( {"text": el.name, "value": el.name} ));
+		res.send(html);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-exports.weightage = async (req, res) => {
-
-    let resp = [
-		{name: '0'},
-		{name: '1'},
-		{name: '2'},
-		{name: '3'},
-		{name: '4'},
-		{name: '5'},
-		{name: '6'},
-		{name: '7'},
-		{name: '8'},
-		{name: '9'},
-		{name: '10'},
-	]
-    
-    let html = [];
-    resp.forEach(el => html.push( {"text": el.name, "value": el.name} ));
-    // console.log(catsHtml);
-    res.send(html);
-}

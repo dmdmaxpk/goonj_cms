@@ -2,19 +2,16 @@ const express = require('express');
 const router = express.Router();
 const programController = require('../controllers/programController');
 
-// Programs list
-router.get('/', programController.get);
+// PROGRAM GET, POST and PUT
+router.route('/')
+	.get(programController.get)
+	.post(programController.post)
+	.delete(programController.delete);
 
-// Add
-router.post('/add', programController.add);
-
-// Update
+// Update route for in-line edit
 router.post('/editable', programController.editable);
 
-// Delete
-router.get('/delete', programController.delete);
-
-// For fastSelect HTML
+// For fastSelect HTML used on video page
 router.get('/html', programController.html);
 
 module.exports = router;

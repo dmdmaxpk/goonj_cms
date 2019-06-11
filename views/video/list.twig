@@ -36,19 +36,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for video in videoList%}
+                                        {% for video in data %}
                                             <tr>
-                                                <td>{{video.title}}</td>
-                                                <td>{{video.added_dtm|date("Y-m-d H:i:s", false)}}</td>
-                                                <td>{{video.category}}</td>
-                                                <td>{{video.duration}}</td>
-                                                <td>{{video.file_name}}</td>
+                                                <td>{{ video.title }}</td>
+                                                <td>{{ video.added_dtm|date("Y-m-d H:i:s", false) }}</td>
+                                                <td>{{ video.category }}</td>
+                                                <td>{{ video.duration }}</td>
+                                                <td>{{ video.file_name }}</td>
                                                 
                                                 <td>
                                                     {% if video.transcoding_status == true %}
                                                         <strong style="color:green;">100 %</strong>
                                                     {% elseif video.transcoding_status == false %}
-                                                        <strong style="color:red;" class="transcode_status" data-id= {{video._id}}></strong>
+                                                        <strong style="color:red;" class="transcode_status" data-id= {{ video._id }}></strong>
                                                     {% endif %}
                                                 </td>
                                                 <td>
@@ -61,7 +61,7 @@
                                                 <td class="text-nowrap">
                                                     <a href="/video/view/{{ video._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
                                                     <a href="/video/edit/{{ video._id }}" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                    <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/video/delete?_id={{video._id}}"> <i class="fa fa-close text-danger"></i> </a>
+                                                    <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/video/delete?_id={{ video._id }}"> <i class="fa fa-close text-danger"></i> </a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -100,7 +100,7 @@
 
                 // Delete
                 $(".delete").click(function () {
-                    var url = $(this).attr("data-url");
+                    let url = $(this).attr("data-url");
                     $.get(url, function (data) {
                         location.reload();
                     });
@@ -109,7 +109,7 @@
                 // Custom videos limit
                 $("#videolimit_button").click(function(e) {
                     e.preventDefault();
-                        var aa = $( "#video_limit" ).val();
+                        let aa = $( "#video_limit" ).val();
                         window.open('/video?limit=' + aa, '_blank');
                 });
                 // Work on enter key
@@ -124,11 +124,11 @@
             $(window).on('load', function () {
                 // Set Transcode Status
                 $('.transcode_status').each( (index, val) => {
-                    var id = $(val).data('id');
+                    let id = $(val).data('id');
                     $.get( "video/transcodestatus?_id="+id, function( data ) {
                         $(val).text(data);
                     });
                 });
             });
         </script>
-    {% endblock %}       
+    {% endblock %}

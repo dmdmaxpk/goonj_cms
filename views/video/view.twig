@@ -110,10 +110,10 @@
                         <strong>Anchor:</strong>
                         <address>{{ video.anchor }}</address>
                     </div>
-                    <div class="col-sm-4">
+                    {# <div class="col-sm-4">
                         <strong>Guests:</strong>
                         <address>{{ video.guests }}</address>
-                    </div>
+                    </div> #}
                 </div>
                 
                 <div class="row">
@@ -136,7 +136,7 @@
     {% block foot %}
         <script src="https://vjs.zencdn.net/7.2.0/video.min.js"></script>
         <script>
-            var player = videojs('player');
+            let player = videojs('player');
             player.play();
         </script>
         <script>
@@ -157,11 +157,11 @@
 
             // Copying slug to clipboard for WP
             function copyToClipboard(element) {
-                var $temp = $("<input>");
+                let $temp = $("<input>");
                 $("body").append($temp);
                 $temp.val($(element).text()).select();
                 document.execCommand("copy");
                 $temp.remove();
             }
         </script>
-    {% endblock %}       
+    {% endblock %}

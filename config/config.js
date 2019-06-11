@@ -2,8 +2,8 @@ const env = process.env.NODE_ENV || 'development';
 
 let config = {
     development: {
-        // videoServiceUrl: 'http://localhost:3000',
-        videoServiceUrl: 'http://10.3.7.101:3000',
+        videoServiceUrl: 'http://localhost:3000',
+        // videoServiceUrl: 'http://10.3.7.101:3000',
         port: '3003',
         transcodeServiceUrl: 'http://10.3.7.12:3011'
     },

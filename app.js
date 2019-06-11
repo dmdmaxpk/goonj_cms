@@ -12,6 +12,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
+// Middlewares
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.png')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,12 +22,8 @@ app.use(logger('dev'));
 // Importing Index Routes
 app.use('/', routes);
 
-// Setting Port from config file
-app.set('port', config.port);
-
-// Run server
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
-});
+// Start Server
+let { port } = config;
+app.listen(port, () => console.log(`APP running on port ${port}`) );
 
 module.exports = app;

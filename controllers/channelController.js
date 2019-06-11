@@ -1,15 +1,22 @@
 const axios = require('axios');
 const config = require('../config/config');
 
+// Main homepage
 exports.get = async (req, res) => {
 	
-	let resp = await axios.get(`${config.videoServiceUrl}/channel`);
-	let list = resp.data;
-
-	res.render('channel', {title: 'Channel', list});
+	try {
+		// GET: Video Service
+		let {data} = await axios.get(`${config.videoServiceUrl}/channel`);
+		res.render('channel', {title: 'Channel', data});	// Rendering the channel view
+	} 
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-exports.add = async (req, res) => {
+// POST function
+exports.post = async (req, res) => {
 
 	let postData = req.body;
 
@@ -17,59 +24,88 @@ exports.add = async (req, res) => {
 	else postData.active = false;
 
 	console.log(postData);
-	let resp = await axios.post(`${config.videoServiceUrl}/channel`, postData);
-	resp = resp.data;
-	console.log(resp);
 	
-	res.redirect('/channel');
+	try {
+		// POST: Video Service
+		let {data} = await axios.post(`${config.videoServiceUrl}/channel`, postData);
+		console.log(data);
+		res.redirect('/channel');	// Redirecting to main page
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-
-exports.update = async (req, res) => {
+// PUT function
+exports.put = async (req, res) => {
 
 	let { _id } = req.query;
 	let postData = req.body;
 	console.log(postData);
 
-	let resp = await axios.put(`${config.videoServiceUrl}/channel?_id=${_id}`, postData);
-	resp = resp.data;
-	console.log(resp);
-	
-	res.send("Updated!");
+	try {
+		// PUT: Video Service
+		let {data} = await axios.put(`${config.videoServiceUrl}/channel?_id=${_id}`, postData);
+		console.log(data);
+		res.send(data);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// In-line edit
 exports.editable = async (req, res) => {
 
 	const postData = req.body;
-	console.log('aaaaaaa',postData);
+	console.log(postData);
 
 	const { name, value, pk } = postData;
-	console.log(name, value, pk);
 
-	let resp = await axios.put(`${config.videoServiceUrl}/channel?_id=${pk}`, {[name]: value});
-	resp = resp.data;
-	console.log(resp);
-	
-	res.send("Updated!");
+	try {
+		// PUT: Video Service
+		let {data} = await axios.put(`${config.videoServiceUrl}/channel?_id=${pk}`, {[name]: value});
+		console.log(data);
+		res.send('Updated!');
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// DELETE function
 exports.delete = async (req, res) => {
 
 	const { _id } = req.query;
-	let resp = await axios.delete(`${config.videoServiceUrl}/channel?_id=${_id}`);
-	res.send('Deleted!');
+
+	try {
+		// DELETE: Video Service
+		let {data} = await axios.delete(`${config.videoServiceUrl}/channel?_id=${_id}`);
+		res.send(data);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
-// API CALLS -----------------------------------
+// For fastSelect HTML, which is used on video page
 exports.html = async (req, res) => {
 
-    let resp = await axios.get(`${config.videoServiceUrl}/channel`);
-	resp = resp.data;
-    // console.log(resp);
-    
-    let html = [];
-    resp.forEach(el => html.push( {"text": el.name, "value": el.name} ));
-    // console.log(catsHtml);
-    res.send(html);
+	try {
+		let html = [];
+		// GET: Video Service
+		let {data} = await axios.get(`${config.videoServiceUrl}/channel`);
+
+		data.forEach(el => html.push( {"text": el.name, "value": el.name} ));	// Creating key-value structure for fastselect dropdown
+		res.send(html);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 

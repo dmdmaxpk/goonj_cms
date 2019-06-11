@@ -5,119 +5,163 @@ const path = require('path');
 const webp = require('webp-converter');
 const config = require('../config/config');
 
+// Main Video Homepage
 exports.getAllVideos = async (req, res) => {
 
 	const { limit } = req.query;
 
-	let { data: videoList } = await axios.get(`${config.videoServiceUrl}/video?limit=${limit || 50}`);
-	res.render('./video/list', {title: 'Video', videoList});
+	try {
+		let { data } = await axios.get(`${config.videoServiceUrl}/video?limit=${limit || 50}`);
+		res.render('./video/list', {title: 'Video', data});
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// Video Add Page
 exports.videoAddScreen = async (req, res) => {
 
 	res.render('./video/add', {title: 'Add Video'});
 }
 
+// POST function
 exports.postVideo = async (req, res) => {
 	
 	let postData = req.body;
 	postData.title		= postData.title.trim();
-	postData.topics 	= postData.topics.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
-	postData.guests 	= postData.guests.split(',').map( item => item.trim() );		// Spliting on , for Array and then trim spaces
-	postData.thumbnail 	= postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and Adding webp extension
-	postData.file_name 	= postData.file_name.replace(/ /g,"-");							// Replacing spaces with -
+	postData.topics 	= postData.topics.split(',').map( item => item.trim() );			// Spliting on , for Array and then trim spaces
+	// postData.guests 	= postData.guests.split(',').map( item => item.trim() );			// Spliting on , for Array and then trim spaces (REMOVED)
+	postData.thumbnail 	= postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';		// Replacing spaces with - and Adding webp extension
+	postData.file_name 	= postData.file_name.replace(/ /g,"-");								// Replacing spaces with -
 	console.log('Video Add: ', postData);
 
-	// Post to Video Service
-	axios.post(`${config.videoServiceUrl}/video`, postData);
-	
-	res.redirect('/video');
+	try {
+		// POST: Video Service
+		axios.post(`${config.videoServiceUrl}/video`, postData);
+		res.redirect('/video');
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// View page for video
 exports.view = async (req, res) => {
 
 	const { _id } = req.params;
 	console.log(`Video View: ${_id}`);
 
-	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
+	try {
+		let { data } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
-	// Getting filename without extension for player
-	result.file_name_short = result.file_name.split('.')[0];
-	result.slug = result.title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g,'-');	// Making slug from title by lower case, replacing special characters and spaces with -
-	console.log(result);
+		// Getting filename without extension for player
+		data.file_name_short = data.file_name.split('.')[0];
+		data.slug = data.title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g,'-');	// Making slug from title by lower case, replacing special characters and spaces with - (Used for Website)
+		console.log(data);
 
-	res.render('./video/view', {title: 'View Video', video:result});
+		res.render('./video/view', {title: 'View Video', video: data});
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// EDIT GET PAGE
 exports.editView = async (req, res) => {
+
 	const { _id } = req.params;
 	console.log(`Video Edit View: ${_id}`);
 
-	let { data: result } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
+	try {
+		let { data } = await axios.get(`${config.videoServiceUrl}/video?_id=${_id}`);
 
-	// <<<Tuples for dropdown boxes
-	let topicsHtml = [];
-	let guestsHtml = [];
+		// <<<Tuples for dropdown boxes
+		let topicsHtml = [];
+		// let guestsHtml = [];
 
-	// Checking if the Array is not empty
-	if (result.topics[0] !== '')	result.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
-	// Checking if the Array is not empty
-	if (result.guests[0] !== '') 	result.guests.forEach( el => guestsHtml.push( { "text": el, "value": el } ));
+		// Checking if the Array is not empty
+		if (data.topics[0] !== '')	data.topics.forEach( el => topicsHtml.push( { "text": el, "value": el } ));
+		// Checking if the Array is not empty (REMOVED)
+		// if (data.guests[0] !== '') 	data.guests.forEach( el => guestsHtml.push( { "text": el, "value": el } ));
 
-	result.topics = result.topics.toString();
-	result.topicsHtml = JSON.stringify(topicsHtml);
+		data.topics = data.topics.toString();
+		data.topicsHtml = JSON.stringify(topicsHtml);
 
-	result.guests = result.guests.toString();
-	result.guestsHtml = JSON.stringify(guestsHtml);
-	// Tuples for dropdown boxes>>>
+		// GUESTS REMOVED
+		// data.guests = data.guests.toString();
+		// data.guestsHtml = JSON.stringify(guestsHtml);
+		// Tuples for dropdown boxes>>>
 
-	console.log(result);
-	res.render('./video/edit', {title: 'Edit Video', video:result});
+		console.log(data);
+		res.render('./video/edit', {title: 'Edit Video', video: data});
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
+// EDIT POST PAGE
 exports.editPost = async (req, res) => {
 
 	const { _id } = req.params;
 
 	let postData = req.body;
 	if (postData.topics) postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
-	if (postData.guests) postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	// if (postData.guests) postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces (REMOVED)
 	
 	// For updating the thumbs and filenames
 	if (postData.file_name == '') postData.file_name = postData.old_file_name;
 	if (postData.thumbnail == '') postData.thumbnail = postData.old_thumbnail;
 	
-	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and Adding webp extension
+	if (postData.thumbnail) postData.thumbnail = postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';	// Replacing spaces with - and adding webp extension
 	if (postData.file_name) postData.file_name 	= postData.file_name.replace(/ /g,"-");							// Replacing spaces with -
 
 	console.log("Video Edit Post:", postData);
 
-	let { data: result } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
-	console.log(result);
-
-	res.redirect('/video');
+	try {
+		// PUT: Video Service
+		let { data } = await axios.put(`${config.videoServiceUrl}/video?_id=${_id}`, postData);
+		console.log(data);
+		res.redirect('/video');
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
 exports.pinned = async (req, res) => {
 	
-	let respPinned = await axios.get(`${config.videoServiceUrl}/video?pinned=true`);
-	let respAll = axios.get(`${config.videoServiceUrl}/video`);
-	
-	let [pinnedVideo, allVideos] = await Promise.all([respPinned, respAll]);
+	try {
+		let {data: pinned} = await axios.get(`${config.videoServiceUrl}/video?pinned=true`);
+		let {data: videoList} = await axios.get(`${config.videoServiceUrl}/video`);
 
-	console.log(pinnedVideo.data);
-	let pinned = pinnedVideo.data;
-	res.render('./video/pinned', {title: 'Pinned Videos', videoList: allVideos.data, pinned});
+		res.render('./video/pinned', {title: 'Pinned Videos', videoList, pinned});
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
 exports.delete = async (req, res) => {
 
 	const { _id } = req.query;
 
-	let { data: result } = await axios.delete(`${config.videoServiceUrl}/video?_id=${_id}`);
-	
-	console.log(result);
-	res.send(result);
+	try {
+		let { data } = await axios.delete(`${config.videoServiceUrl}/video?_id=${_id}`);
+		console.log(data);
+		res.send(data);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
 exports.retranscode = async (req, res) => {
@@ -132,20 +176,28 @@ exports.retranscode = async (req, res) => {
 	// Posting to transcoding service for re-transcode:
 	axios.post(`${config.transcodeServiceUrl}/transcode`, result)
 		.then( response => console.log(response.data) )
-		.catch( error => console.log(error) );
+		.catch( error => console.log(error.code) );
 
 	// Setting transcoding status to false
-	axios.put(`${config.videoServiceUrl}/video?_id=${result._id}`, {transcoding_status: false});
+	axios.put(`${config.videoServiceUrl}/video?_id=${result._id}`, { transcoding_status: false })
+		.catch( error => console.log(error.code) );
 	
 	res.send('Re-transcoding Started!');
 }
 
 exports.transcodeStatus = async (req, res) => {
+
 	let { _id } = req.query;
 
-	let { data } = await axios.get(`${config.transcodeServiceUrl}/transcode/status?_id=${_id}`);
-	console.log(`Transcode Progress: ${data}%`);
-	res.send(`${data} %`);
+	try {
+		let { data } = await axios.get(`${config.transcodeServiceUrl}/transcode/status?_id=${_id}`);
+		console.log(`Transcode Progress: ${data}%`);
+		res.send(`${data} %`);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
 }
 
 exports.uploadVideoFile = async (req, res) => {
@@ -170,7 +222,6 @@ exports.uploadVideoFile = async (req, res) => {
 
     // parse the incoming request containing the form data
     form.parse(req);
-
 };
 
 exports.uploadThumbnail = async (req, res) => {
@@ -201,5 +252,4 @@ exports.uploadThumbnail = async (req, res) => {
 
     // parse the incoming request containing the form data
     form.parse(req);
-
 };

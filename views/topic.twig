@@ -15,7 +15,7 @@
     {% block body %}
         <div class="row page-titles">
             <div class="col-md-5 align-self-center">
-                <h3 class="text-themecolor">Topics</h3>
+                <h3 class="text-themecolor">{{title}}</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -39,13 +39,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for topic in list %}
+                                    {% for topic in data %}
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ topic._id }}' data-name="name" data-send="always" data-url='/topic/editable' data-value='{{ topic.name }}'></a></td>
                                             <td>{{ topic.added_dtm|date("Y-m-d H:i:s", false) }}</td>
                                             <td><a href="#" class="editable" data-type="number" data-pk='{{ topic._id }}' data-name="weightage" data-send="always" data-url='/topic/editable' data-value='{{ topic.weightage }}'></a></td>
                                             <td class="text-nowrap">
-                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/topic/delete?_id={{ topic._id }}"> <i class="fa fa-close text-danger"></i> </a>
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/topic?_id={{ topic._id }}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -60,7 +60,7 @@
                 <div class="col-12">
                     <div class="card card-body">
                         <h2>Add Topic</h2>
-                        <form method="post" action="/topic/add">
+                        <form method="post" action="/topic">
                             <div class="row">
                                 <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
@@ -107,9 +107,14 @@
 
                 // Delete
                 $(".delete").click(function () {
-                    var url = $(this).attr("data-url");
-                    $.get(url, function (data) {
-                        location.reload();
+                    let url = $(this).attr("data-url");
+
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(data) {
+                            location.reload();
+                        }
                     });
                 });
 
@@ -119,9 +124,14 @@
 
                     // Delete
                     $(".delete").click(function () {
-                        var url = $(this).attr("data-url");
-                        $.get(url, function (data) {
-                            location.reload();
+                        let url = $(this).attr("data-url");
+
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            success: function(data) {
+                                location.reload();
+                            }
                         });
                     });
 

@@ -2,21 +2,16 @@ const express = require('express');
 const router = express.Router();
 const anchorController = require('../controllers/anchorController');
 
-// Anchors list
-router.get('/', anchorController.get);
+// Anchors GET AND POST
+router.route('/')
+	.get(anchorController.get)
+	.post(anchorController.post)
+	.delete(anchorController.delete);
 
-// Add
-router.post('/add', anchorController.add);
-
-// Update
-router.post('/update', anchorController.update);
+// Update route for in-line edit
 router.post('/editable', anchorController.editable);
 
-// Delete
-router.get('/delete', anchorController.delete);
-
-// For fastSelect HTML
+// For fastSelect HTML used on video page
 router.get('/html', anchorController.html);
-router.get('/weightage', anchorController.weightage);
 
 module.exports = router;

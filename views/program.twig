@@ -7,7 +7,7 @@
     {% block body %}
         <div class="row page-titles">
             <div class="col-md-5 align-self-center">
-                <h3 class="text-themecolor">Programs</h3>
+                <h3 class="text-themecolor">{{title}}</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -25,21 +25,19 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        {# <th>Description</th> #}
                                         <th>Added Date</th>
                                         <th>Weightage</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for program in list %}
+                                    {% for program in data %}
                                         <tr>
                                             <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="name" data-send="always" data-url='/program/editable' data-value='{{ program.name }}'></a></td>
-                                            {# <td><a href="#" class="editable" data-type="text" data-pk='{{ program._id }}' data-name="description" data-send="always" data-url='/program/editable' data-value='{{ program.description }}'></a></td> #}
                                             <td>{{program.added_dtm|date("Y-m-d H:i:s", false)}}</td>
                                             <td><a href="#" class="editable" data-type="number" data-pk='{{ program._id }}' data-name="weightage" data-send="always" data-url='/program/editable' data-value='{{ program.weightage }}'></a></td>
                                             <td class="text-nowrap">
-                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/program/delete?_id={{ program._id }}"> <i class="fa fa-close text-danger"></i> </a>
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/program?_id={{ program._id }}"> <i class="fa fa-close text-danger"></i> </a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -54,7 +52,7 @@
                 <div class="col-12">
                     <div class="card card-body">
                         <h2>Add Program</h2>
-                        <form method="post" action="/program/add">
+                        <form method="post" action="/program">
                             <div class="row">
                                 <div class="col-6">
                                     <input type="text" class="form-control" id="title" name="name" placeholder="Name">
@@ -92,9 +90,14 @@
 
                 // Delete
                 $(".delete").click(function () {
-                    var url = $(this).attr("data-url");
-                    $.get(url, function (data) {
-                        location.reload();
+                    let url = $(this).attr("data-url");
+
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(data) {
+                            location.reload();
+                        }
                     });
                 });
 
@@ -106,10 +109,16 @@
 
                     // Delete
                     $(".delete").click(function () {
-                        var url = $(this).attr("data-url");
-                        $.get(url, function (data) {
-                            location.reload();
+                        let url = $(this).attr("data-url");
+
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            success: function(data) {
+                                location.reload();
+                            }
                         });
+
                     });
                 });
                 

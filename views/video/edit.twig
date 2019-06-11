@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{video.title}}">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ video.title }}">
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                     data-load-once="true"
                                     name="category"
                                 />
-                                {# SUB CATS CAN BE USED IN FUTURE #}
+                                {# REMOVED, SUB CATS CAN BE USED IN FUTURE #}
                                 {# <div>SubCategory</div>
                                 <select id="sub_category" class="form-control" name="sub_category" style="height: 300px;" multiple>
                                 </select> #}
@@ -126,7 +126,8 @@
                                         data-load-once="true"
                                         name="anchor"
                                     />
-                                    <div>Guests</div>
+                                    {# REMOVED, can be used in future #}
+                                    {# <div>Guests</div>
                                     <input  
                                         id="guests"
                                         type="text"
@@ -138,7 +139,7 @@
                                         data-url="/guest/html"
                                         data-load-once="true"
                                         name="guests"
-                                    />
+                                    /> #}
                                     <label for="input-file-now">Video</label>
                                     <div class="progress-bar" id="progress-bar"></div>
                                     {# You cant set values for files, it will be not be sent if not changed but if new video is uploaded then it will replace the name #}
@@ -148,7 +149,7 @@
 
                                     <label for="input-file-now">Thumbnail</label>
                                     <div class="progress-bar" id="progress-bar2"></div>
-                                    <input type="hidden" name="old_thumbnail" value="{{video.thumbnail}}">
+                                    <input type="hidden" name="old_thumbnail" value="{{ video.thumbnail }}">
                                     <input id="upload-input2" class="dropify" type="file" name="thumbnail"></br>
                                 </div>
                             </div>
@@ -190,8 +191,8 @@
                     ]
                 });
 
-                {# var markupStr = '{{ video.description|replace({"'": "\'"}) }}'; #}
-                var markupStr = `{{video.description}}`;
+                {# let markupStr = '{{ video.description|replace({"'": "\'"}) }}'; #}
+                let markupStr = `{{video.description}}`;
                 $('#summernote').summernote('code', markupStr);
                 // FastSelect Initialization 
                 $('.fastSelect').fastselect({
@@ -203,7 +204,7 @@
 
                 // Removing selected options on Category Select.
                 function removeOptions(selectbox) {
-                    var i;
+                    let i;
                     for (i = selectbox.options.length - 1; i >= 0; i--) {
                         selectbox.remove(i);
                     }
@@ -215,10 +216,10 @@
                     removeOptions(sub_category);
 
                     $.get("/category/html_subcats?cat_name=" + val, function (data) {
-                        var subCat = "{{ video.sub_category }}";
+                        let subCat = "{{ video.sub_category }}";
 
                         for(i=0; i<data.length; i++){
-                            var option = document.createElement("option");
+                            let option = document.createElement("option");
 
                             if (subCat == data[i].name) {
                                 option.text = data[i].name;
@@ -235,7 +236,7 @@
                 }
 
                 // Load selected subcategories on page load for selected category
-                loadSubcategory("{{video.category}}");
+                loadSubcategory("{{ video.category }}");
                 
                 // Load subcategories for a category
                 $("#category").change(function () {
@@ -243,4 +244,4 @@
                 }); #}
             });
         </script>
-    {% endblock %}       
+    {% endblock %}
