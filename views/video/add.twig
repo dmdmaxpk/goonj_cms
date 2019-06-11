@@ -72,16 +72,6 @@
                                     data-load-once="true"
                                     name="source"
                                 />
-                                <div>Feed</div>
-                                <input  
-                                    id="feed"
-                                    type="text"
-                                    class="fastSelect"
-                                    data-user-option-allowed="true"
-                                    data-url="/feed/html"
-                                    data-load-once="true"
-                                    name="feed"
-                                />
                             </div>
                         </div>
                     </div>
@@ -164,10 +154,10 @@
 
                 $('#summernote').summernote({
                     placeholder: 'write here...',
-                    height: 350, // set editor height
-                    minHeight: null, // set minimum height of editor
-                    maxHeight: null, // set maximum height of editor
-                    focus: false, // set focus to editable area after initializing summernote
+                    height: 350,        // set editor height
+                    minHeight: null,    // set minimum height of editor
+                    maxHeight: null,    // set maximum height of editor
+                    focus: false,       // set focus to editable area after initializing summernote
                     styleTags: ['p', 'h1', 'h2'],
                     toolbar: [
                         // [groupName, [list of button]]
@@ -185,6 +175,7 @@
                 
                 $('.dropify').dropify();
 
+                // <<<---------------Sub-Category---------------
                 {# SUB CATS CAN BE USED IN FUTURE #}
                 {# function removeOptions(selectbox) {
                     var i;
@@ -208,6 +199,8 @@
                 $("#category").change(function () {
                     loadSubcategory($(this).val());
                 }); #}
+
+                // ---------------Sub-Category--------------->>>
             });
         </script>
     {% endblock %}       
