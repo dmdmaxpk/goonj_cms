@@ -27,6 +27,7 @@
                                         <tr>
                                             <th>Title</th>
                                             <th>Added Date</th>
+                                            <th>Premium</th>
                                             <th>Category</th>
                                             <th>Duration</th>
                                             <th>File Name</th>
@@ -40,6 +41,7 @@
                                             <tr>
                                                 <td>{{ video.title }}</td>
                                                 <td>{{ video.added_dtm|date("Y-m-d H:i:s", false) }}</td>
+                                                <td>{{ video.is_premium }}</td>
                                                 <td>{{ video.category }}</td>
                                                 <td>{{ video.duration }}</td>
                                                 <td>{{ video.file_name }}</td>

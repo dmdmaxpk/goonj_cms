@@ -32,6 +32,7 @@ exports.postVideo = async (req, res) => {
 	let postData = req.body;
 	postData.title		= postData.title.trim();
 	postData.topics 	= postData.topics.split(',').map( item => item.trim() );			// Spliting on , for Array and then trim spaces
+	postData.is_premium	= postData.is_premium;
 	// postData.guests 	= postData.guests.split(',').map( item => item.trim() );			// Spliting on , for Array and then trim spaces (REMOVED)
 	postData.thumbnail 	= postData.thumbnail.split('.')[0].replace(/ /g,"-") + '.webp';		// Replacing spaces with - and Adding webp extension
 	postData.file_name 	= postData.file_name.replace(/ /g,"-");								// Replacing spaces with -
@@ -112,6 +113,7 @@ exports.editPost = async (req, res) => {
 
 	let postData = req.body;
 	if (postData.topics) postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
+	if (postData.is_premium) postData.is_premium = postData.is_premium;
 	// if (postData.guests) postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces (REMOVED)
 	
 	// For updating the thumbs and filenames
