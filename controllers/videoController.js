@@ -12,6 +12,7 @@ exports.getAllVideos = async (req, res) => {
 
 	try {
 		let { data } = await axios.get(`${config.videoServiceUrl}/video?limit=${limit || 50}`);
+		console.log("data recived from video service",data);
 		res.render('./video/list', {title: 'Video', data});
 	}
 	catch (err) {
