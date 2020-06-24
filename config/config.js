@@ -14,7 +14,7 @@ let config = {
     },
     production: {
         videoServiceUrl: 'http://10.3.7.101:3000',
-        port: '4000',
+        port: '4001',
         transcodeServiceUrl: 'http://10.3.7.12:3011'
     }
 };
