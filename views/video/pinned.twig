@@ -31,6 +31,7 @@
                                             <th>Added Date</th>
                                             <th>Premium</th>
                                             <th>Category</th>
+                                            <th>Sub Category</th>
                                             <th>Duration</th>
                                             <th>Options</th>
                                         </tr>
@@ -42,6 +43,7 @@
                                                 <td>{{pin.added_dtm|date("Y-m-d H:i:s", true)}}</td>
                                                 <td>{{ video.is_premium }}</td>
                                                 <td>{{pin.category}}</td>
+                                                <td>{{pin.sub_category}}</td>
                                                 <td>{{pin.duration}} </td>
                                                 <td class="text-nowrap">
                                                     <a class="unpinvideo" data-toggle="tooltip" data-original-title="Unpin" data-vid='{{ pin._id }}'> <i class="fa fa-unlink text-inverse m-r-10"></i> </a>
@@ -61,6 +63,7 @@
                                             <th>Added Date</th>
                                             <th>Premium</th>
                                             <th>Category</th>
+                                            <th>Sub Category</th>
                                             <th>Duration</th>
                                             <th>Options</th>
                                         </tr>
@@ -72,6 +75,7 @@
                                                 <td>{{video.added_dtm|date("Y-m-d H:i:s", true)}}</td>
                                                 <td>{{ video.is_premium }}</td>
                                                 <td>{{video.category}}</td>
+                                                <td>{{video.sub_category}}</td>
                                                 <td>{{video.duration}} </td>
                                                 <td class="text-nowrap">
                                                     <a class="pinvideo" data-toggle="tooltip" data-original-title="Pin" data-vid='{{ video._id }}'> <i class="fa fa-link text-inverse m-r-10"></i> </a>
