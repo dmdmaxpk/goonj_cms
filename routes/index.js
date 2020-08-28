@@ -6,6 +6,7 @@ router.get('/', (req, res) => res.redirect('/video'));
 
 router.use('/video',    require('./videoRoutes'));
 router.use('/category', require('./categoryRoutes'));
+router.use('/subcategory', require('./subcategoryRoutes'));
 router.use('/program',  require('./programRoutes'));
 router.use('/topic',    require('./topicRoutes'));
 router.use('/anchor',   require('./anchorRoutes'));

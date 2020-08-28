@@ -109,9 +109,10 @@ exports.editView = async (req, res) => {
 // EDIT POST PAGE
 exports.editPost = async (req, res) => {
 
-	const { _id } = req.params; 
+	const { _id } = req.params;
 
 	let postData = req.body;
+	console.log(postData)
 	if (postData.topics) postData.topics = postData.topics.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces
 	if (postData.is_premium) postData.is_premium = postData.is_premium;
 	// if (postData.guests) postData.guests = postData.guests.split(',').map( item => item.trim() );	// Spliting on , for Array and then trim spaces (REMOVED)
