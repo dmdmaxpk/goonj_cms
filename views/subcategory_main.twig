@@ -1,0 +1,170 @@
+{% extends 'layout.twig' %}
+
+    {% block head %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
+        <style>
+            .fstElement {
+                font-size: 0.6em;
+            }
+            .fstElement {
+                width: 100%;
+            }
+            .fstMultipleMode .fstControls {
+                width: auto;
+            }
+        </style>
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">SubCategories</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table id="myTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Parent category</th>
+                                        <th>Added Date</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subcategory in data %}
+                                        <tr>
+                                            <td>{{subcategory.name}}</td>
+                                            <td>{{subcategory.category_name}}</td>
+                                            <td>{{subcategory.added_dtm|date("Y-m-d H:i:s", false)}}</td>
+                                            <td class="text-nowrap">
+                                                {# <a href="/category/view/{{ category._id }}" data-toggle="tooltip" data-original-title="View"> <i class="fa fa-eye text-inverse m-r-10"></i> </a> #}
+                                                {# <a href="/category/edit/{{ category._id }}" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> #}
+                                                <a class="delete" href="#" data-toggle="tooltip" data-original-title="Delete" data-url="/subcat/delete?cat_id={{subcategory.name}}"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-body">
+                        <h2>Add SubCategory</h2>
+                        <form method="post" action="/subcategory/add_cat">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="title" name="name" placeholder="Name">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="fastSelect" id="category" name="category_name" placeholder="Parent Category" data-url="/category/html_cats" data-user-option-allowed="true" data-load-once="true">
+                                    <!-- <input  
+                                    id="category"
+                                    type="text"
+                                    class="fastSelect"
+                                    data-user-option-allowed="true"
+                                    data-url="/category/html_cats"
+                                    data-load-once="true"
+                                    name="category"
+                                    /> -->
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" id="btnSubmit" class="btn btn-primary float-right" style="margin: 20px 0; width: 200px;">Add SubCateogory</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+         </div>
+    {% endblock %}
+    {% block foot %}
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    "iDisplayLength": 25
+                });
+                $(".delete").click(function () {
+                    let url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+            });
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+        {# Bold/Italic not working in minified summernote version #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+
+                $('#summernote').summernote({
+                    placeholder: 'write here...',
+                    height: 350,        // set editor height
+                    minHeight: null,    // set minimum height of editor
+                    maxHeight: null,    // set maximum height of editor
+                    focus: false,       // set focus to editable area after initializing summernote
+                    styleTags: ['p', 'h1', 'h2'],
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                    ]
+                });
+
+                $('.fastSelect').fastselect({
+                    maxItems: 5
+                });
+                
+                $('.dropify').dropify();
+
+                // <<<---------------Sub-Category---------------
+                {# SUB CATS CAN BE USED IN FUTURE #}
+                {# function removeOptions(selectbox) {
+                    let i;
+                    for (i = selectbox.options.length - 1; i >= 0; i--) {
+                        selectbox.remove(i);
+                    }
+                }
+                
+                function loadSubcategory(val) {
+                    removeOptions(sub_category);
+                    $.get("/category/html_subcats?cat_name=" + val, function (data) {
+                        for (i = 0; i < data.length; i++) {
+                            let option = document.createElement("option");
+                            option.text = data[i].name;
+                            option.value = data[i].name;
+                            sub_category.add(option);
+                        }
+                    });
+                }
+
+                $("#category").change(function () {
+                    loadSubcategory($(this).val());
+                }); #}
+
+                // ---------------Sub-Category--------------->>>
+            });
+        </script>
+    {% endblock %}       

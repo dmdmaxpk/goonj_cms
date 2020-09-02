@@ -61,6 +61,20 @@
                                 </select> #}
                             </div>
                             <div class="col-6">
+                                <div>Sub Category</div>
+                                <input  
+                                    id="sub_category"
+                                    type="text"
+                                    class="fastSelect"
+                                    value='{{ video.sub_category }}'
+                                    data-initial-value='[{"text": "{{ video.sub_category }}", "value" : "{{ video.sub_category }}"}]'
+                                    data-user-option-allowed="true"
+                                    data-url="/subcategory/html_cats"
+                                    data-load-once="true"
+                                    name="sub_category"
+                                />
+                            </div>
+                            <div class="col-6">
                                 <div>Source</div>
                                 <input  
                                     id="source"
