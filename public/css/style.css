@@ -3722,7 +3722,7 @@
 		 display: none !important;
 	 }
 	 .left-sidebar {
-		width: 0 !important;
+		display: none !important;
 	}
  }
  
