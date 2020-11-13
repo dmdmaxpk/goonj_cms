@@ -3721,6 +3721,9 @@
 	 .hidden-sm-down {
 		 display: none !important;
 	 }
+	 .left-sidebar {
+		display: none !important;
+	}
  }
  
  @media (min-width: 768px) {
