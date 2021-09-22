@@ -106,7 +106,8 @@
         <script>
             $(document).ready(function() {
                 $('#unpinnedTable').DataTable({
-                    "order": [[ 1, "desc" ]]
+                    "order": [[ 1, "desc" ]],
+                    "iDisplayLength": 100
                 });
 
                 $('.unpinvideo').click(function(){
