@@ -143,7 +143,7 @@ exports.pinned = async (req, res) => {
 	
 	try {
 		let {data: pinned} = await axios.get(`${config.videoServiceUrl}/video?pinned=true`);
-		let {data: videoList} = await axios.get(`${config.videoServiceUrl}/video`);
+		let {data: videoList} = await axios.get(`${config.videoServiceUrl}/video?limit=500`);
 
 		res.render('./video/pinned', {title: 'Pinned Videos', videoList, pinned});
 	}
