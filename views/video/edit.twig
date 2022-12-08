@@ -77,13 +77,32 @@
 
                             <div class="col-6">
                                 <div class="margin-top-15">
-                                    <input type="text" value="{{ video.last_video }}" class="form-control" id="last_video" name="last_video" placeholder="Last Video ID">
+                                    <div>Last Video</div>
+                                    <input  
+                                        id="last_video"
+                                        type="text"
+                                        class="fastSelect"
+                                        data-user-option-allowed="false"
+                                        data-url="/video/search"
+                                        data-load-once="false"
+                                        name="last_video"
+                                    />    
                                 </div>
                             </div>
 
                             <div class="col-6">
                                 <div class="margin-top-15">
-                                    <input type="text" value="{{ video.next_video }}" class="form-control" id="next_video" name="next_video" placeholder="Next Video ID">
+                                    <div>Next Video</div>
+                                    <input  
+                                        id="next_video"
+                                        type="text"
+                                        class="fastSelect"
+                                        data-user-option-allowed="false"
+                                        data-url="/video/search"
+                                        data-load-once="false"
+                                        name="next_video"
+                                    />
+                                    </div>    
                                 </div>
                             </div>
 

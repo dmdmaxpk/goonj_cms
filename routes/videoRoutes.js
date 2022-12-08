@@ -34,4 +34,6 @@ router.get('/transcodestatus', videoController.transcodeStatus);
 router.post('/uploadvideofile', videoController.uploadVideoFile);
 router.post('/uploadthumbnail', videoController.uploadThumbnail);
 
+router.get('/search', videoController.searchVideos);
+
 module.exports = router;

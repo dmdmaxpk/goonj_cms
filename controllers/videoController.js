@@ -257,3 +257,19 @@ exports.uploadThumbnail = async (req, res) => {
     // parse the incoming request containing the form data
     form.parse(req);
 };
+
+// For fastSelect HTML, which is used on video page
+exports.searchVideos = async (req, res) => {
+	try {
+		const {query} = req.query;
+		let vidsHtml = [];
+		// GET: Video Service
+		let {data} = await axios.get(`${config.videoServiceUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
+		data.forEach(el => vidsHtml.push( {"text": el.title, "value": el._id} ));	// Creating key-value structure for fastselect dropdown
+		res.send(vidsHtml);
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
+}
