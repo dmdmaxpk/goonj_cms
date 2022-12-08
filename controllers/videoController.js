@@ -265,8 +265,7 @@ exports.searchVideos = async (req, res) => {
 		let vidsHtml = [];
 		// GET: Video Service
 		try{
-			let data = await axios.get(`${config.videoServiceUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
-			console.log('video data', data);
+			let {data} = await axios.get(`${config.apiBaseUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
 			data.forEach(el => vidsHtml.push( {"text": el.title, "value": el._id} ));	// Creating key-value structure for fastselect dropdown
 			res.send(vidsHtml);
 		} catch (error) {
