@@ -67,7 +67,7 @@
                                     type="text"
                                     class="fastSelect"
                                     value='{{ video.sub_category }}'
-                                    data-initial-value='[{"text": "{{ video.sub_category }}", "value" : "{{ video.sub_category }}"}]'
+                                    data-minitial-value='[{"text": "{{ video.sub_category }}", "value" : "{{ video.sub_category }}"}]'
                                     data-user-option-allowed="true"
                                     data-url="/subcategory/html_cats"
                                     data-load-once="true"
@@ -82,6 +82,7 @@
                                         id="last_video"
                                         type="text"
                                         class="fastSelect"
+                                        data-minitial-value='[{"text": "{{ video.last_video }}", "value" : "{{ video.last_video }}"}]'
                                         data-user-option-allowed="false"
                                         data-url="/video/search"
                                         data-load-once="false"
@@ -97,6 +98,7 @@
                                         id="next_video"
                                         type="text"
                                         class="fastSelect"
+                                        data-minitial-value='[{"text": "{{ video.next_video }}", "value" : "{{ video.next_video }}"}]'
                                         data-user-option-allowed="false"
                                         data-url="/video/search"
                                         data-load-once="false"
