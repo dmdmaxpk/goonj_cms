@@ -77,12 +77,11 @@
 
                             <div class="col-6">
                                 <div class="margin-top-15">
-                                    <div>Last Video</div>
+                                    <div>Last Video ({{video.last_video}})</div>
                                     <input  
                                         id="last_video"
                                         type="text"
                                         class="fastSelect"
-                                        text='{{ video.last_video }}'
                                         value='{{ video.last_video }}'
                                         data-minitial-value='[{"text": "{{ video.last_video }}", "value" : "{{ video.last_video }}"}]'
                                         data-user-option-allowed="true"
@@ -95,7 +94,7 @@
 
                             <div class="col-6">
                                 <div class="margin-top-15">
-                                    <div>Next Video</div>
+                                    <div>Next Video ({{video.next_video}})</div>
                                     <input  
                                         id="next_video"
                                         type="text"
