@@ -264,10 +264,14 @@ exports.searchVideos = async (req, res) => {
 		const {query} = req.query;
 		let vidsHtml = [];
 		// GET: Video Service
-		let data = await axios.get(`${config.videoServiceUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
-		console.log('video data', data);
-		data.forEach(el => vidsHtml.push( {"text": el.title, "value": el._id} ));	// Creating key-value structure for fastselect dropdown
-		res.send(vidsHtml);
+		try{
+			let data = await axios.get(`${config.videoServiceUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
+			console.log('video data', data);
+			data.forEach(el => vidsHtml.push( {"text": el.title, "value": el._id} ));	// Creating key-value structure for fastselect dropdown
+			res.send(vidsHtml);
+		} catch (error) {
+			console.log('error fetching search videos', error);
+		}
 	}
 	catch (err) {
 		console.error(err.code);
