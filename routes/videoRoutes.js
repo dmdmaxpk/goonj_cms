@@ -36,4 +36,6 @@ router.post('/uploadthumbnail', videoController.uploadThumbnail);
 
 router.get('/search', videoController.searchVideos);
 
+router.get('/linkVideos', videoController.linkVideosScreen);
+
 module.exports = router;

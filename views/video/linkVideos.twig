@@ -1,0 +1,300 @@
+{% extends '../layout.twig' %}
+
+        {% block head %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" rel="stylesheet">
+        <style>
+            .fstElement {
+                font-size: 0.8em;
+            }
+            .fstElement {
+                width: 100%;
+            }
+            .fstMultipleMode .fstControls {
+                width: auto;
+            }
+        </style>
+    {% endblock %}
+
+    {% block body %}
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">{{ title }}</h3>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div>Dramas ({{ drama.text }})</div>
+                    <input  
+                        id="category"
+                        type="text"
+                        class="fastSelect"
+                        data-user-option-allowed="true"
+                        data-url="/subcategory/drama"
+                        data-load-once="false"
+                        name="category"
+                    />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6">              
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="myTable1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody1">
+                                        {% for video in data %}
+                                            <tr>
+                                                <td>{{ video.title }}</td>
+                                                <td><button type="button" id="btnSubmit" class="btn btn-primary" id="nextBtn" onclick="addAsNext( '{{ video._id }}', '{{ drama.text }}' )">Add as Next</button></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <input type="number" id="video_limit" class="form-control" placeholder="Enter Number of videos">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="videolimit_button" type="button">Load More</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6">              
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Episode Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                        {% for video in episodes %}
+                                            <tr>
+                                                <td>{{ video.title }}</td>
+                                                <td>{{ video.episode }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <input type="number" id="video_limit" class="form-control" placeholder="Enter Number of videos">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="videolimit_button" type="button">Load More</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                </div>
+                
+            </div>         
+        </div>
+    {% endblock %}
+    {% block foot %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+        {# Bold/Italic not working in minified summernote version #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        <script src="/js/upload.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+
+                $('#summernote').summernote({
+                    placeholder: 'write here...',
+                    height: 350,        // set editor height
+                    minHeight: null,    // set minimum height of editor
+                    maxHeight: null,    // set maximum height of editor
+                    focus: false,       // set focus to editable area after initializing summernote
+                    styleTags: ['p', 'h1', 'h2'],
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                    ]
+                });
+
+                $('.fastSelect').fastselect({
+                    maxItems: 5
+                });
+                
+                $('.dropify').dropify();
+
+                // <<<---------------Sub-Category---------------
+                {# SUB CATS CAN BE USED IN FUTURE #}
+                {# function removeOptions(selectbox) {
+                    let i;
+                    for (i = selectbox.options.length - 1; i >= 0; i--) {
+                        selectbox.remove(i);
+                    }
+                }
+                
+                function loadSubcategory(val) {
+                    removeOptions(sub_category);
+                    $.get("/category/html_subcats?cat_name=" + val, function (data) {
+                        for (i = 0; i < data.length; i++) {
+                            let option = document.createElement("option");
+                            option.text = data[i].name;
+                            option.value = data[i].name;
+                            sub_category.add(option);
+                        }
+                    });
+                }
+
+                $("#category").change(function () {
+                    loadSubcategory($(this).val());
+                }); #}
+
+                // ---------------Sub-Category--------------->>>
+            });
+        </script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Initialize Datatable
+                $('#myTable').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    "iDisplayLength": 25
+                });
+
+                // Delete
+                $(".delete").click(function () {
+                    let url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+
+                // Custom videos limit
+                $("#videolimit_button").click(function(e) {
+                    e.preventDefault();
+                        let aa = $( "#video_limit" ).val();
+                        window.open('/video?limit=' + aa, '_blank');
+                });
+                // Work on enter key
+                $("#video_limit").on('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        console.log( $(this).val());
+                        window.open('/video?limit=' +  $(this).val(), '_blank');
+                    }
+                });
+            });
+
+            $(window).on('load', function () {
+                // Set Transcode Status
+                $('.transcode_status').each( (index, val) => {
+                    let id = $(val).data('id');
+                    $.get( "video/transcodestatus?_id="+id, function( data ) {
+                        $(val).text(data);
+                    });
+                });
+            });
+
+            
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Initialize Datatable
+                $('#myTable1').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    "iDisplayLength": 25
+                });
+
+                // Delete
+                $(".delete").click(function () {
+                    let url = $(this).attr("data-url");
+                    $.get(url, function (data) {
+                        location.reload();
+                    });
+                });
+
+                // Custom videos limit
+                $("#videolimit_button").click(function(e) {
+                    e.preventDefault();
+                        let aa = $( "#video_limit" ).val();
+                        window.open('/video?limit=' + aa, '_blank');
+                });
+                // Work on enter key
+                $("#video_limit").on('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        console.log( $(this).val());
+                        window.open('/video?limit=' +  $(this).val(), '_blank');
+                    }
+                });
+            });
+
+            $(window).on('load', function () {
+                // Set Transcode Status
+                $('.transcode_status').each( (index, val) => {
+                    let id = $(val).data('id');
+                    $.get( "video/transcodestatus?_id="+id, function( data ) {
+                        $(val).text(data);
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            $('#category').change(function() {
+                getVideos($(this).val());
+            });
+            async function getVideos(drama){
+                window.open('/video/linkVideos?drama=' +  drama, '_self');
+            }
+
+            async function addAsNext(_id, drama) {
+                fetch("http://localhost:3000/video/link", {
+                    method: 'post',
+                    body: JSON.stringify({_id: _id, subCategory: drama}),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then((response) => {
+                    console.log('response', response);
+                    return response.json()
+                }).then(res => {
+                    window.open('/video/linkVideos?drama=' +  drama, '_self');
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
+        </script>
+    {% endblock %}
