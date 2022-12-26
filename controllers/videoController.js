@@ -300,7 +300,7 @@ exports.linkVideos = async (req, res) => {
 
 exports.linkVideosScreen = async (req, res) => {
 	try{
-		let {data} = await axios.get(`${config.videoServiceUrl}/video?sub_category=${req.query.drama}&episode=false`);
+		let {data} = await axios.get(`${config.videoServiceUrl}/video?sub_category=${req.query.drama}&episode=false&sortOrder=asc`);
 		let videos = await axios.get(`${config.videoServiceUrl}/video/episodes?sub_category=${req.query.drama}`);
 		res.render('./video/linkVideos', {title: 'Link Dramas', data, episodes: videos.data, drama: {text: req.query.drama, value: req.query.drama}});
 	} catch (err) {
