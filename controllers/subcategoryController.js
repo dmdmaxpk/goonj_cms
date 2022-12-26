@@ -22,7 +22,7 @@ exports.get_drama_cats = async (req, res) => {
 	try{
 		let dramas = [];
 		// let {data} = await axios.get(`https://api.goonj.pk/v2/subcategory?category_name=drama`);
-		let {data} = await axios.get(`http://localhost:3000/subcat?category_name=drama`);
+		let {data} = await axios.get(`${config.videoServiceUrl}/subcat?category_name=drama`);
 		data.forEach(el => dramas.push( {"text": el.name, "value": el.name} ));	// Creating key-value structure for fastselect dropdown
 		res.send(dramas);
 	} catch (err) {
