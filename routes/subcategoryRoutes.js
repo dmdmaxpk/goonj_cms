@@ -6,6 +6,8 @@ const subcategoryController = require('../controllers/subcategoryController')
 // Categories list
 router.get('/', subcategoryController.get_cats);
 
+router.get('/drama', subcategoryController.get_drama_cats);
+
 // Subcategories list of a specific cateogory
 // router.get('/view/:cat_id', subcategoryController.subcats_of_cat);
 

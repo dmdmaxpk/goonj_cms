@@ -7,7 +7,6 @@ const config = require('../config/config');
 
 // Main Video Homepage
 exports.getAllVideos = async (req, res) => {
-
 	const { limit } = req.query;
 
 	try {
@@ -275,5 +274,37 @@ exports.searchVideos = async (req, res) => {
 	catch (err) {
 		console.error(err.code);
 		res.send(err.code);
+	}
+
+// For fastSelect HTML, which is used on video page
+}
+
+exports.linkVideos = async (req, res) => {
+	try {
+		const {query} = req.query;
+		let vidsHtml = [];
+		// GET: Video Service
+		try{
+			let {data} = await axios.get(`${config.apiBaseUrl}/search?term=${query ? query : ''}&limit=30&skip=0`);
+			data.forEach(el => vidsHtml.push( {"text": el.title, "value": el._id} ));	// Creating key-value structure for fastselect dropdown
+			res.send(vidsHtml);
+		} catch (error) {
+			console.log('error fetching search videos', error);
+		}
+	}
+	catch (err) {
+		console.error(err.code);
+		res.send(err.code);
+	}
+}
+
+exports.linkVideosScreen = async (req, res) => {
+	try{
+		let {data} = await axios.get(`${config.videoServiceUrl}/video?sub_category=${req.query.drama}&episode=false`);
+		let videos = await axios.get(`${config.videoServiceUrl}/video/episodes?sub_category=${req.query.drama}`);
+		res.render('./video/linkVideos', {title: 'Link Dramas', data, episodes: videos.data, drama: {text: req.query.drama, value: req.query.drama}});
+	} catch (err) {
+		console.log(err);
+		res.send(err);
 	}
 }
