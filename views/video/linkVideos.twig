@@ -280,7 +280,7 @@
             }
 
             async function addAsNext(_id, drama) {
-                fetch("https://api.goonj.pk/v2/video/link", {
+                fetch("http://10.3.7.101:3000/video/link", {
                     method: 'post',
                     body: JSON.stringify({_id: _id, subCategory: drama}),
                     headers: {
